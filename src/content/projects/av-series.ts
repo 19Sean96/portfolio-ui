@@ -1,5 +1,7 @@
 import type { Project } from '../schema'
 
+const repo = 'https://github.com/19Sean96/av-series'
+
 export const avSeries: Project = {
   slug: 'av-series',
   title: 'AV',
@@ -15,36 +17,41 @@ export const avSeries: Project = {
   years: '2025–2026',
   status: 'live',
   tech: ['WebGL2', 'GLSL', 'Web Audio', 'Cloudflare Workers'],
-  links: [],
+  links: [{ label: 'Source on GitHub', href: repo }],
   pieces: [
     {
       name: 'PULSEFORM',
       status: 'built',
       href: 'https://av1.seananthony.io',
+      source: `${repo}/tree/HEAD/av1`,
       line: 'A shader feedback organism, tunnel and strands, cut to the beat grid.',
     },
     {
       name: 'PHOSPHOR',
       status: 'built',
       href: 'https://av2.seananthony.io',
+      source: `${repo}/tree/HEAD/av2`,
       line: 'A vectorscope stylus striking a resonant wave medium. Silence is black.',
     },
     {
       name: 'MAW',
       status: 'built',
       href: 'https://av3.seananthony.io',
+      source: `${repo}/tree/HEAD/av3`,
       line: 'A raymarched creature eating a 262,144-particle storm inside a feedback furnace.',
     },
     {
       name: 'SERAPH',
       status: 'built',
       href: 'https://av4.seananthony.io',
+      source: `${repo}/tree/HEAD/av4`,
       line: 'A machine seraph of engraved-light rings, with a vectorscope halo that speaks.',
     },
     {
       name: 'SANCTUM',
       status: 'built',
       href: 'https://av5.seananthony.io',
+      source: `${repo}/tree/HEAD/av5`,
       line: 'A first-person processional hall that advances one bay per bar.',
     },
     {

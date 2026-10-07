@@ -8,6 +8,16 @@ describe('content', () => {
     expect(projects.flatMap(validateProject)).toEqual([])
   })
 
+  it('an in-progress piece carries no source link', () => {
+    const avSeries = projectBySlug('av-series')!
+    const pieces = avSeries.pieces!.map((piece) =>
+      piece.status === 'in-progress'
+        ? { ...piece, source: 'https://example.com/code' }
+        : piece,
+    )
+    expect(validateProject({ ...avSeries, pieces })).not.toEqual([])
+  })
+
   it('slugs are unique', () => {
     const slugs = projects.map((p) => p.slug)
     expect(new Set(slugs).size).toBe(slugs.length)
