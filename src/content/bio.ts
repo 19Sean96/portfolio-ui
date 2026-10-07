@@ -34,9 +34,8 @@ export const roles: Role[] = [
   },
   {
     org: 'Integralife',
-    title: 'Founding Partner, Head Engineer',
+    title: 'Director of Technology',
     years: '2024–2026',
-    unconfirmed: true,
     blurb:
       'Integralife was a diabetes and nutrition clinic that grew from one Tempe office to telehealth care across most of the United States. Built and ran its technology and operations through that growth and its acquisition by Myor Care in May 2026.',
   },
