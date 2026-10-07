@@ -104,6 +104,17 @@ function ProjectPage() {
                 {piece.status === 'in-progress' && (
                   <span className="pill pill-draft">in progress</span>
                 )}
+                {piece.source && (
+                  <a
+                    className="piece-source"
+                    href={piece.source}
+                    aria-label={`${piece.name} source`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Source
+                  </a>
+                )}
                 <p>{piece.line}</p>
               </li>
             ))}

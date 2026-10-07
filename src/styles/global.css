@@ -381,6 +381,11 @@ p {
   border-radius: var(--radius);
 }
 
+.pieces .piece-source {
+  justify-self: end;
+  font-size: var(--text-label);
+}
+
 .pieces li p {
   grid-column: 1 / -1;
   color: var(--ink-2);

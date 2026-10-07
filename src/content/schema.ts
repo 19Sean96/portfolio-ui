@@ -23,14 +23,16 @@ export type ProjectMedia =
 
 /**
  * One piece of a series (the AV pieces, later lab spin-offs). Only built
- * pieces carry a link; an in-progress piece holds its slot with a name and a
- * line, and becomes a full card when it ships.
+ * pieces carry a link or a source link; an in-progress piece holds its slot
+ * with a name and a line, and becomes a full card when it ships.
  */
 export interface ProjectPiece {
   name: string
   line: string
   status: 'built' | 'in-progress'
   href?: string
+  /** The piece's code, e.g. its folder in the series repo. */
+  source?: string
   still?: string
 }
 
@@ -126,10 +128,14 @@ export function validateProject(p: Project): string[] {
   for (const piece of p.pieces ?? []) {
     if (piece.status === 'built' && !piece.href)
       problems.push(`${p.slug}: built piece "${piece.name}" has no link`)
-    if (piece.status === 'in-progress' && piece.href)
+    if (piece.status === 'in-progress' && (piece.href || piece.source))
       problems.push(
         `${p.slug}: in-progress piece "${piece.name}" must not link`,
       )
+    for (const url of [piece.href, piece.source]) {
+      if (url && !/^https?:\/\//.test(url))
+        problems.push(`${p.slug}: piece "${piece.name}" link is not absolute`)
+    }
   }
   return problems
 }
