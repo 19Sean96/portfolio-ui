@@ -1,0 +1,17 @@
+{
+  /*
+   * The portfolio Worker. TanStack Start renders pages on the Worker and
+   * static assets (media, lab stills) are served before it runs. No bindings
+   * yet: content is typed data in the bundle, progress lives in the browser.
+   * The account and the seananthony.io route are added when Sean says where
+   * it ships.
+   */
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "seananthony-portfolio",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "@tanstack/react-start/server-entry",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+}
