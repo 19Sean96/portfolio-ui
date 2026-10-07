@@ -1,0 +1,79 @@
+/*
+ * Design tokens. The site is dark only: the stage behind every page is a
+ * dark field, and text is set to read on it. Color beyond ink and surface
+ * carries a meaning (accent, status, an actor in a flow diagram). Sizes are
+ * fluid type roles; no stylesheet names a pixel font size.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* Ground and surfaces. */
+  --ground: #07080c;
+  --surface: rgb(16 18 26 / 0.72);
+  --surface-solid: #10121a;
+  --surface-raised: rgb(26 29 40 / 0.85);
+  --line: rgb(255 255 255 / 0.09);
+  --line-strong: rgb(255 255 255 / 0.18);
+
+  /* Ink, by emphasis. */
+  --ink: #eceef4;
+  --ink-2: #a9aebd;
+  --ink-3: #7a8091;
+
+  /* Accent: the warm glow of the home scene. Focus uses it too. */
+  --accent: #ff9a62;
+  --accent-soft: rgb(255 154 98 / 0.14);
+  --focus-ring: 0 0 0 2px var(--ground), 0 0 0 4px var(--accent);
+
+  /* Status, for pills. */
+  --status-live: #5fd68a;
+  --status-shipped: #7fb2ff;
+  --status-planned: #c5a3ff;
+  --status-archived: #8c92a3;
+  --status-draft: #f2c14e;
+
+  /* Flow diagram actors. */
+  --actor-person: #ff9a62;
+  --actor-agent: #7fb2ff;
+  --actor-system: #8c92a3;
+
+  /* Type. */
+  --font-sans:
+    'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+  --text-display: clamp(2.25rem, 1.4rem + 4vw, 4.5rem);
+  --text-title: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
+  --text-heading: 1.25rem;
+  --text-lede: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+  --text-body: 1rem;
+  --text-label: 0.8125rem;
+  --text-diagram: 0.8125rem;
+  --text-diagram-detail: 0.6875rem;
+
+  /* Space and shape. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --radius: 14px;
+  --radius-small: 999px;
+  --page-width: 72rem;
+  --reading-width: 42rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+
+  /* Motion: CSS transitions use these; scripted motion uses the clock. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 240ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration: 0ms;
+  }
+}
