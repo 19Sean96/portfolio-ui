@@ -30,9 +30,6 @@ function About() {
             <h3>
               {r.org}
               {r.title && <span className="role-title"> · {r.title}</span>}
-              {r.unconfirmed && (
-                <span className="pill pill-draft">unconfirmed</span>
-              )}
             </h3>
             {r.years && <p className="meta">{r.years}</p>}
             <p>{r.blurb}</p>

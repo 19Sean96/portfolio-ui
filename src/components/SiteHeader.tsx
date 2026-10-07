@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { siteName } from '~/content/bio'
 import { countFound } from '~/progress/catalog'
 import { useProgress } from '~/progress/useProgress'
 
@@ -14,7 +15,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <Link to="/" className="wordmark">
-        Sean Anthony
+        {siteName}
       </Link>
       <nav aria-label="Main">
         {nav.map((item) => (

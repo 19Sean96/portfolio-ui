@@ -10,7 +10,7 @@ export const integralife: Project = {
     'Built and ran its technology and operations through that growth and its acquisition by Myor Care in May 2026.',
     'Placeholder: project detail waits on Sean.',
   ],
-  role: ['director of technology'],
+  role: ['founding engineer'],
   years: '2024–2026',
   status: 'shipped',
   tech: [],

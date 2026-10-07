@@ -25,3 +25,14 @@ describe('content', () => {
     expect(projectBySlug('picki')?.title).toBe('Picki')
   })
 })
+
+describe('bio', () => {
+  it('parses every section of bio.md', async () => {
+    const { hero, about, roles } = await import('./bio')
+    expect(hero.line).toMatch(/\.$/)
+    expect(hero.aside.length).toBeGreaterThan(0)
+    expect(about.length).toBeGreaterThan(1)
+    expect(roles.length).toBeGreaterThan(3)
+    for (const r of roles) expect(r.blurb.length).toBeGreaterThan(20)
+  })
+})
