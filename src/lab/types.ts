@@ -14,6 +14,8 @@ export interface LabContext {
   showScene(loader: SceneLoader): Promise<void>
   /** Marks an in-experiment discovery, e.g. "used the mic". */
   discover(id: string): void
+  /** Gives up and shows the still, with the reason as one sentence. */
+  fallback(reason: string): void
 }
 
 export interface LabModule {

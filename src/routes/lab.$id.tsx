@@ -28,7 +28,9 @@ export const Route = createFileRoute('/lab/$id')({
   component: Experiment,
 })
 
-type Run = 'loading' | 'running' | 'failed'
+type Run =
+  | { state: 'loading' | 'running' | 'failed' }
+  | { state: 'fallback'; reason: string }
 
 const noSubscribe = () => () => {}
 
@@ -44,7 +46,7 @@ function Experiment() {
   const stage = useStage()
   const page = useRef<HTMLElement>(null)
   const host = useRef<HTMLDivElement>(null)
-  const [run, setRun] = useState<Run>('loading')
+  const [run, setRun] = useState<Run>({ state: 'loading' })
   // Null on the server and during hydration; the browser's answer after.
   const caps = useSyncExternalStore(
     noSubscribe,
@@ -70,11 +72,16 @@ function Experiment() {
           caps,
           showScene: (loader) => stage.show(loader),
           discover: (found) => void progress().discover(found),
+          fallback: (reason) => {
+            dispose?.()
+            dispose = null
+            setRun({ state: 'fallback', reason })
+          },
         })
         progress().discover(`lab:${entry.id}`)
-        setRun('running')
+        setRun({ state: 'running' })
       },
-      () => !cancelled && setRun('failed'),
+      () => !cancelled && setRun({ state: 'failed' }),
     )
     return () => {
       cancelled = true
@@ -100,7 +107,13 @@ function Experiment() {
           </figcaption>
         </figure>
       )}
-      {run === 'failed' && (
+      {run.state === 'fallback' && (
+        <figure className="lab-still">
+          <img src={entry.still} alt={`A still of ${entry.title}`} />
+          <figcaption>{run.reason} Here is a still.</figcaption>
+        </figure>
+      )}
+      {run.state === 'failed' && (
         <p role="alert">The experiment did not load. Reload to try again.</p>
       )}
       <div ref={host} className="lab-host" data-enter />
