@@ -67,7 +67,9 @@ export function createStage(canvas: HTMLCanvasElement, clock: Clock): Stage {
     pointer.x += (target.x - pointer.x) * k
     pointer.y += (target.y - pointer.y) * k
     active.instance.update(time, delta)
-    post.render(active.instance, time)
+    // Post time only seeds the grain, which re-rolls on any change of time;
+    // calm mode holds it still instead of flickering at the frame rate.
+    post.render(active.instance, clock.calm ? 0 : time)
   })
 
   function fadeTo(value: number) {
