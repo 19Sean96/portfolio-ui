@@ -276,32 +276,36 @@ p {
   gap: var(--space-4);
 }
 
-.grid-feature {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-}
-
-/* Lab pieces: one column, then three across once three fit, so no piece
-   sits alone on a row of two. */
+/* The three card grids change together at 46rem, so a page never jumps
+   from one huge column to three cramped ones. Below it: work and lab one
+   column, the archive two. Above it: work two, lab three, the archive
+   three over two until its row of five fits. */
+.grid-feature,
 .grid-lab {
   grid-template-columns: minmax(0, 1fr);
 }
 
-@media (min-width: 40rem) {
-  .grid-lab {
+.grid-archive {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 46rem) {
+  .grid-feature {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .grid-lab,
+  .grid-archive {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-/* The archive: smaller cards, one row of five on a wide screen. */
-.grid-archive {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
-}
-
-/* Five cards: three over two until the row of five fits, never four and
-   one left alone. */
-@media (min-width: 40rem) and (max-width: 69rem) {
+@media (min-width: 69rem) {
+  /* Room for three featured across; two still share the row. */
+  .grid-feature {
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  }
   .grid-archive {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 
@@ -467,6 +471,21 @@ p {
   color: var(--ink-3);
 }
 
+/* Each tag wraps whole, and the dot leads the next tag, so no line ends
+   on a dangling separator. A status mark gets its own row above them. */
+.meta .tag {
+  white-space: nowrap;
+}
+
+.meta .tag + .tag::before {
+  content: '·';
+  margin-inline-end: var(--space-2);
+}
+
+.meta:has(.tag) .pill {
+  flex-basis: 100%;
+}
+
 /* A status mark: a small lit dot in the status colour, then the word. */
 .pill {
   display: inline-flex;
@@ -517,10 +536,6 @@ p {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-4);
-  }
-  /* Two up, so the archive reads as secondary on a phone. */
-  .grid-archive {
-    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -681,7 +696,7 @@ p {
 }
 
 /* The grid needs a wide panel to keep its text at reading size. Under
-   64rem the diagram reflows in edge order: two columns (down, then back
+   72rem the diagram reflows in edge order: two columns (down, then back
    up) at the prose width, then one column on a phone. */
 .flow-pair,
 .flow-column {
@@ -691,7 +706,7 @@ p {
   margin-inline: auto;
 }
 
-@media (max-width: 64rem) {
+@media (max-width: 72rem) {
   .flow-grid {
     display: none;
   }
