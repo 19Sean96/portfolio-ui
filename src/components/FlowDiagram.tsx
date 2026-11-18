@@ -61,7 +61,16 @@ function exit(from: Point, to: Point) {
   return { x: from.x + dx * s, y: from.y + dy * s }
 }
 
-function FlowSvg({ block, layout }: { block: FlowBlock; layout: Layout }) {
+export function FlowSvg({
+  block,
+  layout,
+  decorative = false,
+}: {
+  block: FlowBlock
+  layout: Layout
+  /** A picture beside words that already say it, e.g. a card face. */
+  decorative?: boolean
+}) {
   const ref = useRef<SVGSVGElement>(null)
   const titleId = useId()
   const arrowId = useId()
@@ -160,10 +169,11 @@ function FlowSvg({ block, layout }: { block: FlowBlock; layout: Layout }) {
       ref={ref}
       className={`flow-${layout}`}
       viewBox={`0 0 ${width} ${height}`}
-      role="img"
-      aria-labelledby={titleId}
+      role={decorative ? undefined : 'img'}
+      aria-hidden={decorative || undefined}
+      aria-labelledby={decorative ? undefined : titleId}
     >
-      <title id={titleId}>{description}</title>
+      {!decorative && <title id={titleId}>{description}</title>}
       <defs>
         <marker
           id={arrowId}

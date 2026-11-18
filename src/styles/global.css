@@ -368,6 +368,29 @@ p {
   background: var(--surface-solid);
 }
 
+/* A card whose face is the project's own flow diagram, drawn in when the
+   card comes into view. */
+.media-flow {
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background:
+    radial-gradient(
+      80% 70% at 50% 40%,
+      rgb(127 178 255 / 0.1),
+      transparent 70%
+    ),
+    var(--surface-solid);
+}
+
+/* Specific enough to beat the narrow-screen rule that hides the grid
+   layout inside articles; a card face keeps the whole picture. */
+.media-flow .flow-grid {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* No capture yet: the project's name set large, lit in its own two hues. */
 .media-generated {
   display: grid;

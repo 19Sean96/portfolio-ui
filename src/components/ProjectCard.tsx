@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import type { Project } from '~/content'
+import type { FlowBlock } from '~/content/schema'
+import { FlowSvg } from './FlowDiagram'
 import { Media } from './Media'
 
 export const statusWords: Record<Project['status'], string> = {
@@ -18,6 +20,7 @@ export function ProjectCard({
   level?: 2 | 3
 }) {
   const Heading = level === 2 ? 'h2' : 'h3'
+  const flow = project.body.find((b): b is FlowBlock => typeof b !== 'string')
   return (
     <article className="card" data-enter>
       <Link
@@ -25,11 +28,18 @@ export function ProjectCard({
         params={{ slug: project.slug }}
         className="card-link"
       >
-        <Media
-          media={project.media}
-          seed={project.slug}
-          label={project.title}
-        />
+        {flow && project.media.kind === 'none' ? (
+          // No capture, but a diagram of the real work: that is its face.
+          <div className="media media-flow">
+            <FlowSvg block={flow} layout="grid" decorative />
+          </div>
+        ) : (
+          <Media
+            media={project.media}
+            seed={project.slug}
+            label={project.title}
+          />
+        )}
         <div className="card-text">
           <Heading className="card-title">{project.title}</Heading>
           <p className="card-sub">{project.subtitle}</p>
