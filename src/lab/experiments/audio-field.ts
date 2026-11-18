@@ -36,7 +36,11 @@ const lab: LabModule = {
             stopKey.disabled = !playing
             if (hadFocus && !playing) firstKey?.focus()
           },
-          () => (status.textContent = 'That source did not start.'),
+          (err: unknown) =>
+            (status.textContent =
+              err instanceof DOMException && err.name === 'NotAllowedError'
+                ? 'The mic is blocked. Allow it from the address bar, or play the tone.'
+                : 'That source did not start.'),
         )
       })
       bar.append(b)

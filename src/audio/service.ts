@@ -121,9 +121,11 @@ export async function playTone(): Promise<void> {
 /** Listens to the mic. The mic is analysed, never played back. */
 export async function listenToMic(): Promise<void> {
   const s = ensure()
-  stop()
   await s.context.resume()
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+  // Only once the mic is granted does it replace what was playing, so a
+  // refusal leaves the tone running.
+  stop()
   const source = s.context.createMediaStreamSource(stream)
   source.connect(s.analyser)
   s.stopSource = () => {

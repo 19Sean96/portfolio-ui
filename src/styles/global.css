@@ -340,9 +340,28 @@ p {
   pointer-events: none;
 }
 
-.card:hover {
-  translate: 0 -4px;
-  box-shadow: var(--raised-high);
+/* Hover lifts only where there is a real hover, so a tap on a phone does
+   not leave a card lifted. The press below is for every pointer. */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    translate: 0 -4px;
+    box-shadow: var(--raised-high);
+  }
+
+  .card:hover .media {
+    scale: 1.03;
+  }
+
+  .pieces li:has(> a:not(.piece-source):hover) {
+    translate: 0 -2px;
+  }
+
+  .lab-controls button:hover {
+    box-shadow:
+      var(--edge-light),
+      0 0 0 1px rgb(255 154 98 / 0.5),
+      0 8px 18px -6px rgb(0 0 0 / 0.75);
+  }
 }
 
 .card:active {
@@ -352,10 +371,6 @@ p {
 
 .card .media {
   transition: scale var(--duration-spring) var(--ease-spring);
-}
-
-.card:hover .media {
-  scale: 1.03;
 }
 
 .card-link {
@@ -624,10 +639,6 @@ p {
   border-radius: inherit;
 }
 
-.pieces li:has(> a:not(.piece-source):hover) {
-  translate: 0 -2px;
-}
-
 .pieces .piece-source {
   position: relative;
   z-index: 1;
@@ -777,6 +788,10 @@ p {
   font-weight: 600;
 }
 
+.media-flow .flow-label {
+  font-size: var(--text-diagram-face);
+}
+
 .flow-detail {
   fill: var(--ink-2);
   font-size: var(--text-diagram-detail);
@@ -847,6 +862,12 @@ p {
   color: var(--ink);
 }
 
+/* Home's header sits open over the lit cloud, so its count takes
+   secondary ink. */
+.site-header:has(~ .page > .hero) .found {
+  color: var(--ink-2);
+}
+
 /* Home's footer rests on the lit cloud too. */
 .page:has(> .hero) ~ .site-footer,
 .page:has(> .hero) ~ .site-footer a {
@@ -856,6 +877,7 @@ p {
 .lab-page :is(.crumbs, h1, .lede),
 .hero :is(h1, .lede),
 .page:has(> .hero) .section-head,
+.site-header:has(~ .page > .hero),
 .lab-page ~ .site-footer,
 .page:has(> .hero) ~ .site-footer,
 .site-header:has(~ .lab-page) {
@@ -954,13 +976,6 @@ p {
   transition:
     translate var(--duration-spring) var(--ease-spring),
     box-shadow var(--duration) var(--ease-out);
-}
-
-.lab-controls button:hover {
-  box-shadow:
-    var(--edge-light),
-    0 0 0 1px rgb(255 154 98 / 0.5),
-    0 8px 18px -6px rgb(0 0 0 / 0.75);
 }
 
 .lab-controls button:active {

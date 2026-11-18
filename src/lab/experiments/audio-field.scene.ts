@@ -21,7 +21,9 @@ void main() {
   vec2 p = (vUv - c) * uResolution / min(uResolution.x, uResolution.y);
   float r = length(p);
   float a = atan(p.y, p.x);
-  float ring = 0.18 + uBass * 0.22 + fbm(vec2(a * 3.0, uTime * 0.4)) * (0.05 + uMid * 0.2);
+  // Noise sampled round a circle, so it meets itself with no seam where
+  // the angle wraps.
+  float ring = 0.18 + uBass * 0.22 + fbm(vec2(cos(a), sin(a)) * 3.0 + vec2(0.0, uTime * 0.4)) * (0.05 + uMid * 0.2);
   float line = smoothstep(0.012 + uTreble * 0.02, 0.0, abs(r - ring));
   // The haze gathers around the ring and fades out toward the words.
   float haze = fbm(p * 4.0 + uTime * 0.1) * uMid * (1.0 - smoothstep(0.35, 0.8, r));

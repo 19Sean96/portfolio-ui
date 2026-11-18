@@ -66,6 +66,8 @@
   --text-label: 0.8125rem;
   --text-diagram: 0.8125rem;
   --text-diagram-detail: 0.75rem;
+  /* A diagram drawn as a card face is scaled down about a third. */
+  --text-diagram-face: 1.25rem;
 
   /* Space and shape. */
   --space-1: 0.25rem;
