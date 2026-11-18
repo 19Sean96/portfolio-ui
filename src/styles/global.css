@@ -472,6 +472,21 @@ p {
   margin: 0;
 }
 
+/* On a phone the facts sit in an even two-column grid instead of wrapping
+   ragged. */
+@media (max-width: 30rem) {
+  .facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+}
+
+/* The AV pieces list reads as a column, not a 72rem-wide bar. */
+.pieces {
+  max-width: 48rem;
+}
+
 .facts dt {
   font-size: var(--text-label);
   color: var(--ink-3);
@@ -596,7 +611,7 @@ p {
    diagram reflows to one column in edge order. */
 .flow-column {
   display: none;
-  width: min(100%, 19rem);
+  width: min(100%, 24rem);
   height: auto;
   margin-inline: auto;
 }
@@ -618,9 +633,10 @@ p {
 }
 
 .flow-node rect {
-  fill: var(--surface-raised);
+  fill: color-mix(in srgb, var(--actor) 10%, var(--surface-raised));
   stroke: var(--actor);
-  stroke-width: 1.5;
+  stroke-width: 1;
+  stroke-opacity: 0.7;
 }
 
 .flow-person {
@@ -766,8 +782,8 @@ p {
 }
 
 .lab-controls [role='status'] {
-  font-size: var(--text-label);
-  color: var(--ink-3);
+  font-size: var(--text-small);
+  color: var(--ink-2);
 }
 
 .lab-still img,
