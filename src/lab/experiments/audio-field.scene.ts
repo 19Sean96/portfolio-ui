@@ -23,7 +23,8 @@ void main() {
   float a = atan(p.y, p.x);
   float ring = 0.18 + uBass * 0.22 + fbm(vec2(a * 3.0, uTime * 0.4)) * (0.05 + uMid * 0.2);
   float line = smoothstep(0.012 + uTreble * 0.02, 0.0, abs(r - ring));
-  float haze = fbm(p * 4.0 + uTime * 0.1) * uMid;
+  // The haze gathers around the ring and fades out toward the words.
+  float haze = fbm(p * 4.0 + uTime * 0.1) * uMid * (1.0 - smoothstep(0.35, 0.8, r));
   vec3 col = uInk + uHot * (line * (0.6 + uBass) + haze * 0.4);
   gl_FragColor = vec4(col, 1.0);
 }

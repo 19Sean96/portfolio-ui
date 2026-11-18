@@ -14,8 +14,10 @@ const lab: LabModule = {
     status.setAttribute('role', 'status')
     status.textContent = 'Silent. Pick a source.'
 
-    // Stop is live only while a source plays.
+    // Stop is live only while a source plays. A key that disables itself
+    // would drop keyboard focus to the page, so focus moves to the first key.
     let stopKey: HTMLButtonElement | null = null
+    let firstKey: HTMLButtonElement | null = null
     const button = (
       label: string,
       run: () => Promise<void>,
@@ -29,7 +31,10 @@ const lab: LabModule = {
         run().then(
           () => {
             status.textContent = words
-            if (stopKey) stopKey.disabled = !playing
+            if (!stopKey) return
+            const hadFocus = document.activeElement === stopKey
+            stopKey.disabled = !playing
+            if (hadFocus && !playing) firstKey?.focus()
           },
           () => (status.textContent = 'That source did not start.'),
         )
@@ -37,7 +42,7 @@ const lab: LabModule = {
       bar.append(b)
       return b
     }
-    button('Play tone', playTone, 'Playing the built-in loop.', true)
+    firstKey = button('Play tone', playTone, 'Playing the built-in loop.', true)
     if (ctx.caps.mic)
       button(
         'Use mic',

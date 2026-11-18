@@ -280,9 +280,16 @@ p {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
 }
 
-/* Lab pieces: three across from tablet up, so no piece sits alone. */
+/* Lab pieces: one column, then three across once three fit, so no piece
+   sits alone on a row of two. */
 .grid-lab {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 40rem) {
+  .grid-lab {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 /* The archive: smaller cards, one row of five on a wide screen. */
@@ -531,13 +538,16 @@ p {
   margin: 0;
 }
 
-/* On its own page a recording shows whole, at its own shape; only cards
-   crop to 16:10. */
 .project-media .media {
-  aspect-ratio: auto;
-  height: auto;
   border-radius: var(--radius);
   box-shadow: var(--raised-high);
+}
+
+/* On its own page a recording shows whole, at its own shape; only cards
+   crop to 16:10. A generated face has no shape of its own, so keeps 16:10. */
+.project-media :is(video, img).media {
+  aspect-ratio: auto;
+  height: auto;
 }
 
 .prose {
@@ -806,10 +816,16 @@ p {
   color: var(--ink);
 }
 
+/* Home's footer rests on the lit cloud too. */
+.page:has(> .hero) ~ .site-footer {
+  color: var(--ink-2);
+}
+
 .lab-page :is(.crumbs, h1, .lede),
 .hero :is(h1, .lede),
 .page:has(> .hero) .section-head,
 .lab-page ~ .site-footer,
+.page:has(> .hero) ~ .site-footer,
 .site-header:has(~ .lab-page) {
   text-shadow:
     0 1px 2px rgb(0 0 0 / 0.6),
@@ -826,6 +842,11 @@ p {
 
 .lab-page .crumbs {
   color: var(--ink-2);
+}
+
+/* A playing piece can light the whole field, so the lede takes full ink. */
+.lab-page .lede {
+  color: var(--ink);
 }
 
 /* The frost feathers out below the bar, so the piece fades under it
