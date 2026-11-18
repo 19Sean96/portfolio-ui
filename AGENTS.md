@@ -29,9 +29,9 @@ Sean's portfolio and browser lab, planned for seananthony.io. Started 2026-10-07
 
 ## Adding things
 
-- **A project.** Write `src/content/projects/<slug>.ts`, list it in `src/content/index.ts`. Set `placeholder: true` while the copy is not real.
+- **A project.** Write `src/content/projects/<slug>.ts`, list it in `src/content/index.ts`. Set `placeholder: true` while the copy is not real: a draft shows on the dev server only, never in a build, and published copy may not say "placeholder" or "tbd" (the content test checks). A clip takes a `poster`, one of its own frames under `public/media/work/`.
 - **A scene.** A module under `src/stage/scenes/` whose default export is a `StageScene`. `fullscreenScene` covers a one-shader scene.
-- **A lab piece.** A module under `src/lab/experiments/` whose default export is a `LabModule`, a still under `public/lab/`, and an entry in `src/lab/registry.ts` with what it `requires`. The lab page checks the browser and shows the still with the reason when a need is missing.
+- **A lab piece.** A module under `src/lab/experiments/` whose default export is a `LabModule`, a still under `public/lab/`, and an entry in `src/lab/registry.ts` with what it `requires`. The lab page checks the browser and shows the still with the reason when a need is missing. A piece that finds out only once running that it cannot work calls `ctx.fallback(reason)` for the same still.
 - **A discovery.** Call `progress().discover(id)`, and list the id in `src/progress/catalog.ts` if it should count toward the total.
 
 ## Checks
