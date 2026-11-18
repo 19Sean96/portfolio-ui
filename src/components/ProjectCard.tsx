@@ -9,7 +9,15 @@ export const statusWords: Record<Project['status'], string> = {
   planned: 'planned',
 }
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({
+  project,
+  level = 3,
+}: {
+  project: Project
+  /** The heading level: 2 when the card sits right under the page h1. */
+  level?: 2 | 3
+}) {
+  const Heading = level === 2 ? 'h2' : 'h3'
   return (
     <article className="card" data-enter>
       <Link
@@ -32,7 +40,7 @@ export function ProjectCard({ project }: { project: Project }) {
             )}
             <span>{project.years}</span>
           </p>
-          <h3>{project.title}</h3>
+          <Heading className="card-title">{project.title}</Heading>
           <p className="card-sub">{project.subtitle}</p>
         </div>
       </Link>

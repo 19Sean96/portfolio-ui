@@ -23,7 +23,7 @@ function Lab() {
       </p>
       <div className="grid">
         {labExperiments.map((e) => (
-          <LabCard key={e.id} entry={e} />
+          <LabCard key={e.id} entry={e} level={2} />
         ))}
       </div>
     </main>

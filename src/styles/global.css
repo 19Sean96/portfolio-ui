@@ -149,7 +149,7 @@ p {
   display: flex;
   align-items: center;
   gap: var(--space-6);
-  padding: var(--space-4) var(--gutter);
+  padding: var(--space-2) var(--gutter);
   background: linear-gradient(var(--ground), rgb(7 8 12 / 0));
 }
 
@@ -261,14 +261,31 @@ p {
 
 .card-link {
   display: grid;
+  grid-template-rows: auto 1fr;
   height: 100%;
   text-decoration: none;
 }
 
+/* The card clips its media, which would clip a ring on the link inside,
+   so the card wears the ring. */
+.card-link:focus-visible {
+  box-shadow: none;
+}
+
+.card:has(.card-link:focus-visible) {
+  box-shadow: var(--focus-ring);
+}
+
 .card-text {
   display: grid;
+  align-content: start;
   gap: var(--space-1);
   padding: var(--space-4);
+}
+
+.card-title {
+  font-size: var(--text-heading);
+  font-weight: 600;
 }
 
 .card-sub {
@@ -387,6 +404,10 @@ p {
 .pieces .piece-source {
   justify-self: end;
   font-size: var(--text-label);
+}
+
+.pieces .pill {
+  justify-self: start;
 }
 
 .pieces li p {
@@ -564,6 +585,7 @@ p {
   backdrop-filter: blur(14px);
   width: fit-content;
   max-width: 100%;
+  accent-color: var(--accent);
 }
 
 .lab-controls label {
@@ -618,13 +640,21 @@ p {
   border-radius: var(--radius);
 }
 
-@media (pointer: coarse) {
-  .nav-link,
-  .lab-controls button {
-    min-height: 2.75rem;
-    display: inline-flex;
-    align-items: center;
-  }
+/* Links that stand alone get a 44px-tall target on every pointer. */
+.wordmark,
+.nav-link,
+.crumbs a,
+.section-head a,
+.links a,
+.pieces a,
+.lab-controls button {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-link {
+  padding-inline: var(--space-1);
 }
 
 @media (max-width: 30rem) {

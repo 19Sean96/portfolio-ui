@@ -23,7 +23,7 @@ function Work() {
       </p>
       <div className="grid">
         {list.map((p) => (
-          <ProjectCard key={p.slug} project={p} />
+          <ProjectCard key={p.slug} project={p} level={2} />
         ))}
       </div>
     </main>

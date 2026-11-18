@@ -38,7 +38,7 @@ export const Route = createRootRoute({
 
 function NotFound() {
   return (
-    <main className="page">
+    <main id="main" className="page">
       <h1>Nothing here</h1>
       <p>
         No page answers at this address. <Link to="/">Go home</Link>.

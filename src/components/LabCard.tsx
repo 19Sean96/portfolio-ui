@@ -1,7 +1,15 @@
 import { Link } from '@tanstack/react-router'
 import type { LabEntry } from '~/lab/types'
 
-export function LabCard({ entry }: { entry: LabEntry }) {
+export function LabCard({
+  entry,
+  level = 3,
+}: {
+  entry: LabEntry
+  /** The heading level: 2 when the card sits right under the page h1. */
+  level?: 2 | 3
+}) {
+  const Heading = level === 2 ? 'h2' : 'h3'
   return (
     <article className="card" data-enter>
       <Link to="/lab/$id" params={{ id: entry.id }} className="card-link">
@@ -13,7 +21,7 @@ export function LabCard({ entry }: { entry: LabEntry }) {
             )}
             <span>{entry.tech.join(' · ')}</span>
           </p>
-          <h3>{entry.title}</h3>
+          <Heading className="card-title">{entry.title}</Heading>
           <p className="card-sub">{entry.summary}</p>
         </div>
       </Link>
