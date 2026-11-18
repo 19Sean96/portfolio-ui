@@ -356,6 +356,9 @@ p {
 
 .prose {
   display: grid;
+  /* minmax(0, …): a wide diagram overflows to the right instead of
+     stretching the track, and every paragraph with it. */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   max-width: var(--reading-width);
 }
@@ -437,10 +440,27 @@ p {
   width: min(100vw - 2 * var(--gutter), var(--page-width) - 2 * var(--gutter));
 }
 
-.flow svg {
-  min-width: 40rem;
+.flow-grid {
   width: 100%;
   height: auto;
+}
+
+/* Under 52rem the grid would shrink its text below reading size, so the
+   diagram reflows to one column in edge order. */
+.flow-column {
+  display: none;
+  width: min(100%, 19rem);
+  height: auto;
+  margin-inline: auto;
+}
+
+@media (max-width: 52rem) {
+  .flow-grid {
+    display: none;
+  }
+  .flow-column {
+    display: block;
+  }
 }
 
 .flow-node {

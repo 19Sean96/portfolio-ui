@@ -3,24 +3,56 @@
  * order the block lists them, each one tracing its line, then lighting the
  * node it reaches. It plays once, on the shared timeline, the first time it
  * scrolls into view. Calm mode shows it finished.
+ *
+ * It renders twice: the authored grid, and a single column in edge order
+ * for narrow screens, where the grid would shrink its text below reading
+ * size. CSS shows one; the hidden one never scrolls into view, so never plays.
  */
 import { useEffect, useId, useRef } from 'react'
-import type { FlowBlock } from '~/content/schema'
+import type { FlowBlock, FlowNode } from '~/content/schema'
 import { clock } from '~/motion/clock'
 import { ease, timeline } from '~/motion/timeline'
 
-const COL = 215
-const ROW = 120
-const W = 175
+const COL = 246
+const W = 190
 const H = 64
 const PAD = 16
 
-function centre(n: { col: number; row: number }) {
-  return { x: PAD + n.col * COL + W / 2, y: PAD + n.row * ROW + H / 2 }
+type Layout = 'grid' | 'column'
+
+interface Point {
+  x: number
+  y: number
+}
+
+/** Node positions for a layout: the authored grid, or one column in edge order. */
+function place(block: FlowBlock, layout: Layout) {
+  if (layout === 'grid')
+    return {
+      row: 120,
+      cells: new Map(
+        block.nodes.map((n) => [n.id, { col: n.col, row: n.row }]),
+      ),
+    }
+  const order = [
+    ...new Set([
+      ...block.edges.flatMap(([a, b]) => [a, b]),
+      ...block.nodes.map((n) => n.id),
+    ]),
+  ]
+  const ids = new Set(block.nodes.map((n) => n.id))
+  return {
+    row: 96,
+    cells: new Map(
+      order
+        .filter((id) => ids.has(id))
+        .map((id, i) => [id, { col: 0, row: i }]),
+    ),
+  }
 }
 
 /** The point where the line from a box's centre toward `to` leaves the box. */
-function exit(from: { x: number; y: number }, to: { x: number; y: number }) {
+function exit(from: Point, to: Point) {
   const dx = to.x - from.x
   const dy = to.y - from.y
   const sx = dx === 0 ? Infinity : W / 2 / Math.abs(dx)
@@ -29,15 +61,25 @@ function exit(from: { x: number; y: number }, to: { x: number; y: number }) {
   return { x: from.x + dx * s, y: from.y + dy * s }
 }
 
-export function FlowDiagram({ block }: { block: FlowBlock }) {
+function FlowSvg({ block, layout }: { block: FlowBlock; layout: Layout }) {
   const ref = useRef<SVGSVGElement>(null)
   const titleId = useId()
   const arrowId = useId()
-  const byId = new Map(block.nodes.map((n) => [n.id, n]))
-  const cols = Math.max(...block.nodes.map((n) => n.col)) + 1
-  const rows = Math.max(...block.nodes.map((n) => n.row)) + 1
+  const byId = new Map<string, FlowNode>(block.nodes.map((n) => [n.id, n]))
+  const { row: step, cells } = place(block, layout)
+  const cellList = [...cells.values()]
+  const cols = Math.max(...cellList.map((c) => c.col)) + 1
+  const rows = Math.max(...cellList.map((c) => c.row)) + 1
   const width = PAD * 2 + (cols - 1) * COL + W
-  const height = PAD * 2 + (rows - 1) * ROW + H
+  const height = PAD * 2 + (rows - 1) * step + H
+  const corner = (id: string) => {
+    const c = cells.get(id)!
+    return { x: PAD + c.col * COL, y: PAD + c.row * step }
+  }
+  const centre = (id: string) => {
+    const c = corner(id)
+    return { x: c.x + W / 2, y: c.y + H / 2 }
+  }
 
   // One string: React wants a <title> with a single text child.
   const description = `${block.title}: ${block.edges
@@ -114,76 +156,85 @@ export function FlowDiagram({ block }: { block: FlowBlock }) {
   }, [block])
 
   return (
-    <figure className="flow" data-enter>
-      <svg
-        ref={ref}
-        viewBox={`0 0 ${width} ${height}`}
-        role="img"
-        aria-labelledby={titleId}
-      >
-        <title id={titleId}>{description}</title>
-        <defs>
-          <marker
-            id={arrowId}
-            viewBox="0 0 10 10"
-            refX="9"
-            refY="5"
-            markerWidth="7"
-            markerHeight="7"
-            orient="auto-start-reverse"
-          >
-            <path d="M0,0 L10,5 L0,10 z" className="flow-arrow" />
-          </marker>
-        </defs>
-        {block.edges.map(([from, to, label]) => {
-          const a = centre(byId.get(from)!)
-          const b = centre(byId.get(to)!)
-          const p = exit(a, b)
-          const q = exit(b, a)
-          return (
-            <g key={`${from}-${to}`} data-edge-group>
-              <path
-                data-edge
-                d={`M${p.x},${p.y} L${q.x},${q.y}`}
-                className="flow-edge"
-                markerEnd={`url(#${arrowId})`}
-                data-marker={`url(#${arrowId})`}
-              />
-              {label && (
-                <text
-                  x={(p.x + q.x) / 2}
-                  y={(p.y + q.y) / 2 - 8}
-                  className="flow-edge-label"
-                  textAnchor="middle"
-                >
-                  {label}
-                </text>
-              )}
-            </g>
-          )
-        })}
-        {block.nodes.map((n) => {
-          const x = PAD + n.col * COL
-          const y = PAD + n.row * ROW
-          return (
-            <g
-              key={n.id}
-              data-node={n.id}
-              className={`flow-node flow-${n.actor ?? 'system'}`}
-            >
-              <rect x={x} y={y} width={W} height={H} rx={10} />
-              <text x={x + 12} y={y + 26} className="flow-label">
-                {n.label}
+    <svg
+      ref={ref}
+      className={`flow-${layout}`}
+      viewBox={`0 0 ${width} ${height}`}
+      role="img"
+      aria-labelledby={titleId}
+    >
+      <title id={titleId}>{description}</title>
+      <defs>
+        <marker
+          id={arrowId}
+          viewBox="0 0 10 10"
+          refX="9"
+          refY="5"
+          markerWidth="7"
+          markerHeight="7"
+          orient="auto-start-reverse"
+        >
+          <path d="M0,0 L10,5 L0,10 z" className="flow-arrow" />
+        </marker>
+      </defs>
+      {block.edges.map(([from, to, label]) => {
+        const a = centre(from)
+        const b = centre(to)
+        const p = exit(a, b)
+        const q = exit(b, a)
+        // A vertical edge carries its label beside the line, not on it.
+        const upright = Math.abs(p.x - q.x) < 1
+        return (
+          <g key={`${from}-${to}`} data-edge-group>
+            <path
+              data-edge
+              d={`M${p.x},${p.y} L${q.x},${q.y}`}
+              className="flow-edge"
+              markerEnd={`url(#${arrowId})`}
+              data-marker={`url(#${arrowId})`}
+            />
+            {label && (
+              <text
+                x={upright ? p.x + 10 : (p.x + q.x) / 2}
+                y={upright ? (p.y + q.y) / 2 + 4 : (p.y + q.y) / 2 - 8}
+                className="flow-edge-label"
+                textAnchor={upright ? 'start' : 'middle'}
+              >
+                {label}
               </text>
-              {n.detail && (
-                <text x={x + 12} y={y + 46} className="flow-detail">
-                  {n.detail}
-                </text>
-              )}
-            </g>
-          )
-        })}
-      </svg>
+            )}
+          </g>
+        )
+      })}
+      {block.nodes.map((n) => {
+        const { x, y } = corner(n.id)
+        return (
+          <g
+            key={n.id}
+            data-node={n.id}
+            className={`flow-node flow-${n.actor ?? 'system'}`}
+          >
+            <rect x={x} y={y} width={W} height={H} rx={10} />
+            <text x={x + 12} y={y + 26} className="flow-label">
+              {n.label}
+            </text>
+            {n.detail && (
+              <text x={x + 12} y={y + 46} className="flow-detail">
+                {n.detail}
+              </text>
+            )}
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+export function FlowDiagram({ block }: { block: FlowBlock }) {
+  return (
+    <figure className="flow" data-enter>
+      <FlowSvg block={block} layout="grid" />
+      <FlowSvg block={block} layout="column" />
       <figcaption>
         <strong>{block.title}.</strong> {block.caption}
         <span className="flow-key">

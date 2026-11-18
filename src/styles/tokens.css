@@ -50,7 +50,7 @@
   --text-body: 1rem;
   --text-label: 0.8125rem;
   --text-diagram: 0.8125rem;
-  --text-diagram-detail: 0.6875rem;
+  --text-diagram-detail: 0.75rem;
 
   /* Space and shape. */
   --space-1: 0.25rem;
@@ -64,7 +64,7 @@
   --radius: 14px;
   --radius-small: 999px;
   --page-width: 72rem;
-  --reading-width: 42rem;
+  --reading-width: 36rem;
   --gutter: clamp(1rem, 4vw, 2.5rem);
 
   /* Motion: CSS transitions use these; scripted motion uses the clock. */
