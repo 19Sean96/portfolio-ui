@@ -3,8 +3,9 @@
  * checked at build time by the type and at test time by validateProject, so a
  * missing field fails the build instead of rendering a hole.
  *
- * Placeholder entries are allowed and say so (`placeholder: true`); the work
- * index shows them with a "draft" mark until real copy lands.
+ * Placeholder entries are allowed and say so (`placeholder: true`). The dev
+ * server shows them with a "draft" mark; a production build leaves them out
+ * until real copy lands.
  */
 
 export const projectStatuses = [
@@ -123,6 +124,13 @@ export function validateProject(p: Project): string[] {
         )
     }
   }
+  // A published entry never shows a note to its author. Notes live in comments.
+  if (!p.placeholder)
+    for (const block of p.body) {
+      const text = typeof block === 'string' ? block : (block.caption ?? '')
+      if (/placeholder|\btbd\b/i.test(text))
+        problems.push(`${p.slug}: published copy says "${text.slice(0, 40)}"`)
+    }
   if (p.media.kind === 'video' && p.media.sources.length === 0)
     problems.push(`${p.slug}: video media has no sources`)
   for (const piece of p.pieces ?? []) {

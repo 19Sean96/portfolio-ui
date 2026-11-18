@@ -19,8 +19,7 @@ function Work() {
     <main id="main" className="page" ref={ref}>
       <h1 data-enter>Work</h1>
       <p className="lede" data-enter>
-        Current work first, then the archive. Entries marked draft are
-        placeholders.
+        Current work first, then the archive.
       </p>
       <div className="grid">
         {list.map((p) => (

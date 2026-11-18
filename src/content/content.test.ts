@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { allProjects, featuredProjects, projectBySlug, projects } from '.'
 import { labExperiments } from '~/lab/registry'
 import { validateProject } from './schema'
@@ -16,6 +16,24 @@ describe('content', () => {
         : piece,
     )
     expect(validateProject({ ...avSeries, pieces })).not.toEqual([])
+  })
+
+  it('a published entry carries no placeholder note', () => {
+    const berine = projectBySlug('berine-metabolic')!
+    const body = [...berine.body, 'Placeholder: to write.']
+    expect(validateProject({ ...berine, body })).not.toEqual([])
+    expect(validateProject({ ...berine, body, placeholder: true })).toEqual([])
+  })
+
+  it('a build leaves drafts out', () => {
+    vi.stubEnv('DEV', false)
+    try {
+      expect(allProjects().some((p) => p.placeholder)).toBe(false)
+      expect(featuredProjects().some((p) => p.placeholder)).toBe(false)
+      expect(projectBySlug('integralife')).toBeUndefined()
+    } finally {
+      vi.unstubAllEnvs()
+    }
   })
 
   it('slugs are unique', () => {

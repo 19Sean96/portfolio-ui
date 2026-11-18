@@ -15,7 +15,12 @@ export const gifSearch: Project = {
   status: 'archived',
   tech: ['jQuery', 'SCSS', 'HTML', 'GitHub Pages'],
   links: [
-    { label: 'Site', href: 'https://19sean96.github.io/gif-generator-MAX/' },
+    // GitHub Pages answered 404 on 2026-11-18.
+    {
+      label: 'Site',
+      href: 'https://19sean96.github.io/gif-generator-MAX/',
+      dead: true,
+    },
     { label: 'Repo', href: 'https://github.com/19Sean96/gif-generator-MAX' },
   ],
   media: {

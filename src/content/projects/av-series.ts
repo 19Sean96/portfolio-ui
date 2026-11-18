@@ -11,7 +11,7 @@ export const avSeries: Project = {
   body: [
     'Each piece is its own art piece at its own subdomain. They share one listening engine: frequency bands, onsets, a BPM and beat-grid tracker, drops, builds, sections and stereo.',
     'Five pieces are built and live. BABEL and SUTURE hold their slots until they ship. Each picks its own rendering stack, from shader feedback to a raymarched processional hall.',
-    'Placeholder: the full case study follows notes/d2-case-study-outline.md.',
+    // To write: the full case study, following notes/d2-case-study-outline.md.
   ],
   role: ['artist', 'engineer'],
   years: '2025–2026',

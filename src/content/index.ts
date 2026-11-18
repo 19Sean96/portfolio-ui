@@ -38,23 +38,28 @@ function firstYear(p: Project): number {
   return Number.parseInt(p.years, 10) || 0
 }
 
+/** Drafts show on the dev server only, so a build never ships one. */
+const shown = (p: Project) => import.meta.env.DEV || !p.placeholder
+
 /** Live work first, then newest first inside each status. */
 export function allProjects(): Project[] {
-  return [...projects].sort(
-    (a, b) =>
-      statusOrder[a.status] - statusOrder[b.status] ||
-      firstYear(b) - firstYear(a) ||
-      a.title.localeCompare(b.title),
-  )
+  return projects
+    .filter(shown)
+    .sort(
+      (a, b) =>
+        statusOrder[a.status] - statusOrder[b.status] ||
+        firstYear(b) - firstYear(a) ||
+        a.title.localeCompare(b.title),
+    )
 }
 
 export function featuredProjects(limit = 3): Project[] {
   return projects
-    .filter((p) => p.feature > 0)
+    .filter((p) => shown(p) && p.feature > 0)
     .sort((a, b) => b.feature - a.feature)
     .slice(0, limit)
 }
 
 export function projectBySlug(slug: string): Project | undefined {
-  return projects.find((p) => p.slug === slug)
+  return projects.find((p) => p.slug === slug && shown(p))
 }

@@ -12,8 +12,9 @@ export const berineMetabolic: Project = {
     {
       kind: 'flow',
       title: 'How a lesson edit ships',
+      // Drawn from the ops desk docs; Sean to confirm it matches the live flow.
       caption:
-        'Placeholder diagram from the ops desk docs. A clinician rules on a sentence, an agent claims the lesson and writes the edit, and a publish verifies it landed.',
+        'A clinician rules on a sentence, an agent claims the lesson and writes the edit, and a publish verifies it landed.',
       nodes: [
         {
           id: 'rule',
@@ -81,9 +82,11 @@ export const berineMetabolic: Project = {
         ['verify', 'confirm', 'unsure'],
       ],
     },
-    'Placeholder: the start year is a guess, and the case study sections (architecture, the review loop, the video pipeline) are still to write.',
+    // To write: the case study sections (architecture, the review loop, the
+    // video pipeline).
   ],
   role: ['co-founder', 'head engineer'],
+  // A guess; Sean to confirm the start year.
   years: '2025–now',
   status: 'live',
   tech: [
