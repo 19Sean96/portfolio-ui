@@ -70,11 +70,13 @@ export function Media({
     )
   const [a, b] = hues(seed)
   return (
+    // Decorative: the card's own heading already names the project.
     <div
       className="media media-generated"
-      role="img"
-      aria-label={`${label}: no capture yet`}
+      aria-hidden="true"
       style={{ '--hue-a': a, '--hue-b': b } as React.CSSProperties}
-    />
+    >
+      <span>{label}</span>
+    </div>
   )
 }

@@ -149,7 +149,9 @@ p {
   display: flex;
   align-items: center;
   gap: var(--space-6);
-  padding: var(--space-2) var(--gutter);
+  /* The header's edges line up with the page column below it. */
+  padding: var(--space-2)
+    max(var(--gutter), (100% - var(--page-width)) / 2 + var(--gutter));
   background: linear-gradient(var(--ground), rgb(7 8 12 / 0));
 }
 
@@ -243,20 +245,37 @@ p {
   gap: var(--space-4);
 }
 
+.grid-feature {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+}
+
 .card {
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: var(--surface-light), var(--surface);
   border-radius: var(--radius);
+  box-shadow: var(--raised);
   overflow: hidden;
   backdrop-filter: blur(14px);
   transition:
-    border-color var(--duration) var(--ease-out),
-    translate var(--duration) var(--ease-out);
+    translate var(--duration-spring) var(--ease-spring),
+    box-shadow var(--duration) var(--ease-out);
 }
 
 .card:hover {
-  border-color: var(--line-strong);
-  translate: 0 -2px;
+  translate: 0 -4px;
+  box-shadow: var(--raised-high);
+}
+
+.card:active {
+  translate: 0 -1px;
+  transition-duration: calc(var(--duration-spring) / 3);
+}
+
+.card .media {
+  transition: scale var(--duration-spring) var(--ease-spring);
+}
+
+.card:hover .media {
+  scale: 1.03;
 }
 
 .card-link {
@@ -273,7 +292,7 @@ p {
 }
 
 .card:has(.card-link:focus-visible) {
-  box-shadow: var(--focus-ring);
+  box-shadow: var(--focus-ring), var(--shadow-2);
 }
 
 .card-text {
@@ -290,7 +309,7 @@ p {
 
 .card-sub {
   color: var(--ink-2);
-  font-size: var(--text-label);
+  font-size: var(--text-small);
 }
 
 .media {
@@ -300,19 +319,33 @@ p {
   background: var(--surface-solid);
 }
 
+/* No capture yet: the project's name set large, lit in its own two hues. */
 .media-generated {
+  display: grid;
+  align-items: end;
+  padding: var(--space-6);
   background:
     radial-gradient(
-      circle at 30% 30%,
-      hsl(var(--hue-a) 70% 55% / 0.55),
+      120% 90% at 15% 0%,
+      hsl(var(--hue-a) 65% 45% / 0.5),
       transparent 60%
     ),
     radial-gradient(
-      circle at 75% 70%,
-      hsl(var(--hue-b) 70% 50% / 0.45),
-      transparent 60%
+      90% 80% at 100% 100%,
+      hsl(var(--hue-b) 65% 40% / 0.35),
+      transparent 65%
     ),
     var(--surface-solid);
+}
+
+.media-generated span {
+  font-size: var(--text-title);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  text-wrap: balance;
+  color: hsl(var(--hue-a) 70% 88% / 0.92);
+  text-shadow: 0 0 2em hsl(var(--hue-a) 80% 60% / 0.45);
 }
 
 .meta {
@@ -324,13 +357,23 @@ p {
   color: var(--ink-3);
 }
 
+/* A status mark: a small lit dot in the status colour, then the word. */
 .pill {
-  display: inline-block;
-  padding: 0 var(--space-2);
-  border: 1px solid currentcolor;
-  border-radius: var(--radius-small);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
   font-size: var(--text-label);
+  font-weight: 500;
   line-height: 1.6;
+}
+
+.pill::before {
+  content: '';
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: currentcolor;
+  box-shadow: 0 0 0.7em currentcolor;
 }
 
 .pill-live {
@@ -368,7 +411,7 @@ p {
 
 .project-media .media {
   border-radius: var(--radius);
-  border: 1px solid var(--line);
+  box-shadow: var(--raised-high);
 }
 
 .prose {
@@ -395,10 +438,10 @@ p {
   grid-template-columns: auto 1fr;
   align-items: baseline;
   column-gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  background: var(--surface);
-  border: 1px solid var(--line);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  background: var(--surface-light), var(--surface);
   border-radius: var(--radius);
+  box-shadow: var(--raised);
 }
 
 .pieces .piece-source {
@@ -413,11 +456,15 @@ p {
 .pieces li p {
   grid-column: 1 / -1;
   color: var(--ink-2);
-  font-size: var(--text-label);
+  font-size: var(--text-small);
 }
 
+/* An unbuilt piece sits flat and unlit: its slot, not yet a surface. */
 .pieces li[data-status='in-progress'] {
-  border-style: dashed;
+  min-height: calc(2.75rem + var(--space-3));
+  padding-top: var(--space-4);
+  background: rgb(255 255 255 / 0.02);
+  box-shadow: none;
   color: var(--ink-2);
 }
 
@@ -433,12 +480,19 @@ p {
   align-items: center;
 }
 
+.roles {
+  gap: var(--space-8);
+}
+
 .roles li {
   display: grid;
   gap: var(--space-2);
   max-width: var(--reading-width);
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--line);
+}
+
+.roles h3 {
+  font-size: var(--text-subheading);
+  text-wrap: pretty;
 }
 
 .role-title {
@@ -449,10 +503,10 @@ p {
 /* Flow diagrams. */
 .flow {
   margin: var(--space-4) 0;
-  padding: var(--space-4);
-  background: var(--surface);
-  border: 1px solid var(--line);
+  padding: var(--space-6);
+  background: var(--surface-light), var(--surface);
   border-radius: var(--radius);
+  box-shadow: var(--raised);
   max-width: none;
   overflow-x: auto;
 }
@@ -534,8 +588,8 @@ p {
 }
 
 .flow figcaption {
-  margin-top: var(--space-3);
-  font-size: var(--text-label);
+  margin-top: var(--space-4);
+  font-size: var(--text-small);
   color: var(--ink-2);
   display: flex;
   flex-wrap: wrap;
@@ -579,9 +633,9 @@ p {
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-4);
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: var(--surface-light), var(--surface);
   border-radius: var(--radius);
+  box-shadow: var(--raised);
   backdrop-filter: blur(14px);
   width: fit-content;
   max-width: 100%;
@@ -595,18 +649,39 @@ p {
   color: var(--ink-2);
 }
 
+/* A raised key: lit on top, it sinks when pressed. */
 .lab-controls button {
   font: inherit;
   color: var(--ink);
-  background: var(--surface-raised);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-small);
+  background:
+    linear-gradient(rgb(255 255 255 / 0.1), rgb(255 255 255 / 0) 60%),
+    var(--surface-raised);
+  border: 0;
+  border-radius: 10px;
   padding: var(--space-1) var(--space-4);
+  box-shadow:
+    var(--edge-light),
+    0 1px 0 rgb(0 0 0 / 0.5),
+    0 6px 14px -6px rgb(0 0 0 / 0.7);
   cursor: pointer;
+  transition:
+    translate var(--duration-spring) var(--ease-spring),
+    box-shadow var(--duration) var(--ease-out);
 }
 
 .lab-controls button:hover {
-  border-color: var(--accent);
+  box-shadow:
+    var(--edge-light),
+    0 0 0 1px rgb(255 154 98 / 0.5),
+    0 8px 18px -6px rgb(0 0 0 / 0.75);
+}
+
+.lab-controls button:active {
+  translate: 0 1px;
+  box-shadow:
+    inset 0 1px 3px rgb(0 0 0 / 0.5),
+    0 0 0 1px rgb(255 154 98 / 0.5);
+  transition-duration: calc(var(--duration-spring) / 3);
 }
 
 .lab-controls [role='status'] {
@@ -617,7 +692,8 @@ p {
 .lab-still img,
 .lab-canvas {
   border-radius: var(--radius);
-  border: 1px solid var(--line);
+  background: var(--surface-light), var(--surface);
+  box-shadow: var(--raised-high);
   width: 100%;
   max-width: 45rem;
 }
@@ -630,7 +706,7 @@ p {
 
 .lab-still figcaption {
   color: var(--ink-2);
-  font-size: var(--text-label);
+  font-size: var(--text-small);
 }
 
 .lab-card {
@@ -657,13 +733,33 @@ p {
   padding-inline: var(--space-1);
 }
 
+/* Footer: where the page ends, and what the found count means. */
+.site-footer {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: var(--space-8) var(--gutter) var(--space-12);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-6);
+  color: var(--ink-3);
+  font-size: var(--text-small);
+}
+
+.site-footer a {
+  color: var(--ink-2);
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* On a phone the header keeps to one row; the footer carries the count. */
 @media (max-width: 30rem) {
   .site-header {
-    flex-wrap: wrap;
-    gap: var(--space-2) var(--space-4);
+    gap: var(--space-4);
   }
-  .found {
-    width: 100%;
-    order: 3;
+  .site-header .found {
+    display: none;
   }
 }

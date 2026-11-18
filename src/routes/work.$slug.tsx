@@ -66,13 +66,17 @@ function ProjectPage() {
         )}
       </dl>
 
-      <div className="project-media" data-enter>
-        <Media
-          media={project.media}
-          seed={project.slug}
-          label={project.title}
-        />
-      </div>
+      {/* With no capture, the page leads with its words instead of a
+          stand-in picture. */}
+      {project.media.kind !== 'none' && (
+        <div className="project-media" data-enter>
+          <Media
+            media={project.media}
+            seed={project.slug}
+            label={project.title}
+          />
+        </div>
+      )}
 
       <div className="prose">
         {project.body.map((block, i) =>

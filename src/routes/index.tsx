@@ -28,7 +28,7 @@ function Home() {
           <h2 id="work-head">Work</h2>
           <Link to="/work">All work</Link>
         </div>
-        <div className="grid">
+        <div className="grid grid-feature">
           {featuredProjects().map((p) => (
             <ProjectCard key={p.slug} project={p} />
           ))}

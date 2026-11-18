@@ -6,6 +6,7 @@ import {
   createRootRoute,
 } from '@tanstack/react-router'
 import { useEffect, type ReactNode } from 'react'
+import { SiteFooter } from '~/components/SiteFooter'
 import { SiteHeader } from '~/components/SiteHeader'
 import { progress } from '~/progress/store'
 import { StageProvider } from '~/stage/StageProvider'
@@ -91,6 +92,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         <StageProvider>
           <SiteHeader />
           {children}
+          <SiteFooter />
         </StageProvider>
         <Scripts />
       </body>
