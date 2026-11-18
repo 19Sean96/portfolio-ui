@@ -98,6 +98,11 @@ function Experiment() {
       <p className="lede" data-enter>
         {entry.summary}
       </p>
+      {entry.status === 'sketch' && (
+        <p className="meta" data-enter>
+          <span className="pill pill-draft">sketch</span>
+        </p>
+      )}
       {lacks && lacks.length > 0 && (
         <figure className="lab-still" data-enter>
           <img src={entry.still} alt={`A still of ${entry.title}`} />

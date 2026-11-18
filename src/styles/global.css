@@ -302,6 +302,11 @@ p {
   font-size: var(--text-subheading);
 }
 
+/* Under the Archive heading, an "archive" mark on every card says nothing. */
+.grid-archive .pill-archived {
+  display: none;
+}
+
 .card {
   position: relative;
   background: var(--surface-light), var(--surface);
@@ -913,6 +918,18 @@ p {
   transition-duration: calc(var(--duration-spring) / 3);
 }
 
+/* These controls draw their depth with box-shadow, which would replace
+   the global focus ring, so focus adds the ring to their own shadow. */
+.lab-controls :is(button, input[type='color']):focus-visible {
+  box-shadow: var(--focus-ring), var(--raised);
+}
+
+.lab-card input:focus-visible {
+  box-shadow:
+    var(--focus-ring),
+    inset 0 1px 3px rgb(0 0 0 / 0.6);
+}
+
 /* A key with nothing to do sits flat and dim. */
 .lab-controls button:disabled {
   color: var(--ink-3);
@@ -927,6 +944,8 @@ p {
 @media (max-width: 30rem) {
   .lab-controls label:has(input[type='range']) {
     flex: 1 1 100%;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    align-items: center;
   }
   .lab-controls input[type='range'] {
     inline-size: 100%;
