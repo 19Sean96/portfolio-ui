@@ -1,6 +1,11 @@
 import type { Project } from '../schema'
 
 const repo = 'https://github.com/19Sean96/av-series'
+// The repo was private on 2026-11-18, so every source link 404'd for a
+// visitor. Set true when it goes public and the links come back.
+const repoIsPublic = false
+const source = (dir: string) =>
+  repoIsPublic ? `${repo}/tree/HEAD/${dir}` : undefined
 
 export const avSeries: Project = {
   slug: 'av-series',
@@ -17,41 +22,41 @@ export const avSeries: Project = {
   years: '2025–2026',
   status: 'live',
   tech: ['WebGL2', 'GLSL', 'Web Audio', 'Cloudflare Workers'],
-  links: [{ label: 'Source on GitHub', href: repo }],
+  links: repoIsPublic ? [{ label: 'Source on GitHub', href: repo }] : [],
   pieces: [
     {
       name: 'PULSEFORM',
       status: 'built',
       href: 'https://av1.seananthony.io',
-      source: `${repo}/tree/HEAD/av1`,
+      source: source('av1'),
       line: 'A shader feedback organism, tunnel and strands, cut to the beat grid.',
     },
     {
       name: 'PHOSPHOR',
       status: 'built',
       href: 'https://av2.seananthony.io',
-      source: `${repo}/tree/HEAD/av2`,
+      source: source('av2'),
       line: 'A vectorscope stylus striking a resonant wave medium. Silence is black.',
     },
     {
       name: 'MAW',
       status: 'built',
       href: 'https://av3.seananthony.io',
-      source: `${repo}/tree/HEAD/av3`,
+      source: source('av3'),
       line: 'A raymarched creature eating a 262,144-particle storm inside a feedback furnace.',
     },
     {
       name: 'SERAPH',
       status: 'built',
       href: 'https://av4.seananthony.io',
-      source: `${repo}/tree/HEAD/av4`,
+      source: source('av4'),
       line: 'A machine seraph of engraved-light rings, with a vectorscope halo that speaks.',
     },
     {
       name: 'SANCTUM',
       status: 'built',
       href: 'https://av5.seananthony.io',
-      source: `${repo}/tree/HEAD/av5`,
+      source: source('av5'),
       line: 'A first-person processional hall that advances one bay per bar.',
     },
     {
