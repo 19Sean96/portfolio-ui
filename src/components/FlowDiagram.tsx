@@ -4,9 +4,10 @@
  * node it reaches. It plays once, on the shared timeline, the first time it
  * scrolls into view. Calm mode shows it finished.
  *
- * It renders twice: the authored grid, and a single column in edge order
- * for narrow screens, where the grid would shrink its text below reading
- * size. CSS shows one; the hidden one never scrolls into view, so never plays.
+ * It renders three times: the authored grid, then two columns and one
+ * column in edge order for narrower screens, where the grid would shrink
+ * its text below reading size. CSS shows one; the hidden ones never scroll
+ * into view, so never play.
  */
 import { useEffect, useId, useRef } from 'react'
 import type { FlowBlock, FlowNode } from '~/content/schema'
@@ -18,14 +19,17 @@ const W = 190
 const H = 64
 const PAD = 16
 
-type Layout = 'grid' | 'column'
+type Layout = 'grid' | 'pair' | 'column'
 
 interface Point {
   x: number
   y: number
 }
 
-/** Node positions for a layout: the authored grid, or one column in edge order. */
+/**
+ * Node positions for a layout: the authored grid, or the nodes in edge
+ * order, either one column or two (down the first, back up the second).
+ */
 function place(block: FlowBlock, layout: Layout) {
   if (layout === 'grid')
     return {
@@ -41,12 +45,15 @@ function place(block: FlowBlock, layout: Layout) {
     ]),
   ]
   const ids = new Set(block.nodes.map((n) => n.id))
+  const known = order.filter((id) => ids.has(id))
+  const half = layout === 'pair' ? Math.ceil(known.length / 2) : known.length
   return {
     row: 96,
     cells: new Map(
-      order
-        .filter((id) => ids.has(id))
-        .map((id, i) => [id, { col: 0, row: i }]),
+      known.map((id, i) => [
+        id,
+        i < half ? { col: 0, row: i } : { col: 1, row: 2 * half - 1 - i },
+      ]),
     ),
   }
 }
@@ -250,6 +257,7 @@ export function FlowDiagram({ block }: { block: FlowBlock }) {
   return (
     <figure className="flow" data-enter>
       <FlowSvg block={block} layout="grid" />
+      <FlowSvg block={block} layout="pair" />
       <FlowSvg block={block} layout="column" />
       <figcaption>
         <strong>{block.title}.</strong> {block.caption}

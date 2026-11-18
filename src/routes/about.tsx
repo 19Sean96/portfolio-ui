@@ -13,11 +13,18 @@ function About() {
   const ref = useRef<HTMLElement>(null)
   useStageScene(scenes.quiet)
   useEntrance(ref)
+  // The first paragraph opens the page as its lede, like every other page.
+  const [lede, ...rest] = about
   return (
     <main id="main" className="page" ref={ref}>
       <h1 data-enter>About</h1>
+      {lede && (
+        <p className="lede" data-enter>
+          {lede}
+        </p>
+      )}
       <div className="prose">
-        {about.map((p) => (
+        {rest.map((p) => (
           <p key={p} data-enter>
             {p}
           </p>

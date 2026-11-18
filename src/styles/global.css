@@ -657,8 +657,10 @@ p {
   height: auto;
 }
 
-/* Under 52rem the grid would shrink its text below reading size, so the
-   diagram reflows to one column in edge order. */
+/* The grid needs a wide panel to keep its text at reading size. Under
+   64rem the diagram reflows in edge order: two columns (down, then back
+   up) at the prose width, then one column on a phone. */
+.flow-pair,
 .flow-column {
   display: none;
   width: 100%;
@@ -666,8 +668,20 @@ p {
   margin-inline: auto;
 }
 
-@media (max-width: 52rem) {
+@media (max-width: 64rem) {
   .flow-grid {
+    display: none;
+  }
+  .flow-pair {
+    display: block;
+  }
+  .prose .flow {
+    width: 100%;
+  }
+}
+
+@media (max-width: 40rem) {
+  .flow-pair {
     display: none;
   }
   .flow-column {
@@ -676,21 +690,6 @@ p {
   /* The panel hugs the one-column diagram instead of stretching it. */
   .prose .flow {
     width: min(100%, 22rem);
-  }
-}
-
-/* On a tablet there is room beside the column, so the caption and key
-   sit there instead of leaving the row empty. */
-@media (min-width: 40rem) and (max-width: 52rem) {
-  .prose .flow {
-    width: min(
-      100vw - 2 * var(--gutter),
-      var(--page-width) - 2 * var(--gutter)
-    );
-    display: grid;
-    grid-template-columns: 20rem minmax(0, 1fr);
-    column-gap: var(--space-8);
-    align-items: start;
   }
 }
 
@@ -805,10 +804,22 @@ p {
   color: var(--ink-2);
 }
 
+/* The frost feathers out below the bar, so the piece fades under it
+   instead of being cut by a hard edge. */
 .site-header:has(~ .lab-page) {
   animation: none;
+  background: none;
+}
+
+.site-header:has(~ .lab-page)::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 -1.5rem;
+  z-index: -1;
   background-color: rgb(7 8 12 / 0.72);
   backdrop-filter: blur(14px);
+  mask-image: linear-gradient(#000 60%, transparent);
+  pointer-events: none;
 }
 
 .lab-page ~ .site-footer {
@@ -881,6 +892,26 @@ p {
     inset 0 1px 3px rgb(0 0 0 / 0.5),
     0 0 0 1px rgb(255 154 98 / 0.5);
   transition-duration: calc(var(--duration-spring) / 3);
+}
+
+/* A key with nothing to do sits flat and dim. */
+.lab-controls button:disabled {
+  color: var(--ink-3);
+  background: rgb(255 255 255 / 0.03);
+  box-shadow: none;
+  translate: none;
+  cursor: default;
+}
+
+/* On a narrow screen each slider takes a full row instead of wrapping
+   beside the colour wells. */
+@media (max-width: 30rem) {
+  .lab-controls label:has(input[type='range']) {
+    flex: 1 1 100%;
+  }
+  .lab-controls input[type='range'] {
+    inline-size: 100%;
+  }
 }
 
 .lab-controls [role='status'] {
