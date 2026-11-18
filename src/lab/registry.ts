@@ -34,7 +34,7 @@ export const labExperiments: readonly LabEntry[] = [
     title: 'HTML in canvas',
     summary:
       'Live, focusable HTML drawn into a canvas and bent by it, through the proposed drawElementImage API.',
-    tech: ['layoutsubtree', 'drawElementImage', 'Canvas 2D'],
+    tech: ['drawable', 'drawElementImage', 'Canvas 2D'],
     requires: ['html-in-canvas'],
     still: '/lab/html-in-canvas.svg',
     status: 'sketch',

@@ -1,5 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
-  <defs></defs>
+  <defs>
+    <linearGradient id="light" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#232736"/>
+      <stop offset="1" stop-color="#1a1d28"/>
+    </linearGradient>
+    <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#05060a"/>
+      <stop offset="1" stop-color="#0b0d13"/>
+    </linearGradient>
+    <filter id="lift" x="-30%" y="-40%" width="160%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+      <feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
   <rect width="800" height="500" fill="#07080c"/>
-  <g transform="translate(400 250) rotate(-6) skewY(6)"><rect x="-200" y="-80" width="400" height="160" rx="14" fill="#10121a" stroke="#7fb2ff" stroke-width="2"/><text x="-170" y="-25" fill="#eceef4" font-family="system-ui, sans-serif" font-size="22">This card is real HTML.</text><rect x="-170" y="5" width="300" height="40" rx="8" fill="#1a1d28" stroke="#3a3f52"/><text x="-155" y="32" fill="#a9aebd" font-family="system-ui, sans-serif" font-size="18">still editable</text></g>
+  <g transform="translate(400 250) rotate(-6) skewY(6)">
+    <rect x="-200" y="-80" width="400" height="160" rx="14" fill="url(#light)" filter="url(#lift)"/>
+    <rect x="-186" y="-80" width="372" height="1" fill="#fff" fill-opacity="0.08"/>
+    <text x="-170" y="-25" fill="#eceef4" font-family="system-ui, sans-serif" font-size="22">This card is real HTML.</text>
+    <rect x="-170" y="5" width="300" height="44" rx="8" fill="url(#field)"/>
+    <rect x="-162" y="5" width="284" height="1" fill="#000" fill-opacity="0.6"/>
+    <text x="-155" y="33" fill="#a9aebd" font-family="system-ui, sans-serif" font-size="18">still editable</text>
+  </g>
 </svg>

@@ -260,12 +260,12 @@ p {
 }
 
 .section-head a {
-  font-size: var(--text-label);
+  font-size: var(--text-small);
   color: var(--ink-2);
 }
 
 .crumbs {
-  font-size: var(--text-label);
+  font-size: var(--text-small);
   color: var(--ink-3);
 }
 
@@ -340,9 +340,11 @@ p {
   box-shadow: var(--focus-ring), var(--shadow-2);
 }
 
+/* Title, line, meta: the meta rests on the card's floor, so a row of
+   cards keeps its status marks level when one line wraps. */
 .card-text {
   display: grid;
-  align-content: start;
+  grid-template-rows: auto auto 1fr;
   gap: var(--space-1);
   padding: var(--space-4);
 }
@@ -354,6 +356,7 @@ p {
 
 .card-text .meta {
   margin-top: var(--space-2);
+  align-self: end;
 }
 
 .card-sub {
@@ -583,6 +586,7 @@ p {
 
 .roles h3 {
   font-size: var(--text-subheading);
+  line-height: 1.3;
   text-wrap: pretty;
 }
 

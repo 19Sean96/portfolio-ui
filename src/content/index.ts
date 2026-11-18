@@ -41,7 +41,7 @@ function firstYear(p: Project): number {
 /** Drafts show on the dev server only, so a build never ships one. */
 const shown = (p: Project) => import.meta.env.DEV || !p.placeholder
 
-/** Live work first, then newest first inside each status. */
+/** Live work first, then newest first inside each status, then the featured. */
 export function allProjects(): Project[] {
   return projects
     .filter(shown)
@@ -49,6 +49,7 @@ export function allProjects(): Project[] {
       (a, b) =>
         statusOrder[a.status] - statusOrder[b.status] ||
         firstYear(b) - firstYear(a) ||
+        b.feature - a.feature ||
         a.title.localeCompare(b.title),
     )
 }
