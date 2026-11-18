@@ -53,6 +53,13 @@ const lab: LabModule = {
       g.save()
       g.scale(dpr, dpr)
       g.translate(canvas.clientWidth / 2, canvas.clientHeight / 2)
+      // At peak tilt the card reaches about 0.8 of its height from centre;
+      // shrink it on a short canvas so its corners stay inside.
+      const k = Math.min(
+        1,
+        (canvas.clientHeight / 2 - 8) / (card.offsetHeight * 0.8 || 1),
+      )
+      g.scale(k, k)
       g.rotate(Math.sin(time * 0.8) * 0.12)
       g.transform(1, Math.sin(time * 1.3) * 0.15, 0, 1, 0, 0)
       try {

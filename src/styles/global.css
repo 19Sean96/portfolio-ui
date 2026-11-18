@@ -290,6 +290,14 @@ p {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
 }
 
+/* Five cards: three over two until the row of five fits, never four and
+   one left alone. */
+@media (min-width: 40rem) and (max-width: 69rem) {
+  .grid-archive {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .grid-archive .card-title {
   font-size: var(--text-subheading);
 }
@@ -765,11 +773,15 @@ p {
 .flow-key > span::before {
   content: '';
   display: inline-block;
-  width: 0.6em;
-  height: 0.6em;
+  /* A small tinted tile like the nodes it names, a little stronger so it
+     reads at this size. */
+  width: 0.75em;
+  height: 0.75em;
   margin-right: 0.35em;
-  border-radius: 2px;
-  border: 1.5px solid var(--actor);
+  vertical-align: -0.05em;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--actor) 35%, var(--surface-raised));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--actor) 55%, transparent);
 }
 
 .flow-key-person {
@@ -782,9 +794,16 @@ p {
   --actor: var(--actor-system);
 }
 
-/* Lab pages. A live piece can paint the stage bright, so the words over it
-   carry a soft dark halo. */
+/* Lab pages and the home hero. A live piece or the lit cloud can paint the
+   stage bright, so the words over it carry a soft dark halo, and home's
+   section links take full ink. */
+.page:has(> .hero) .section-head a {
+  color: var(--ink);
+}
+
 .lab-page :is(.crumbs, h1, .lede),
+.hero :is(h1, .lede),
+.page:has(> .hero) .section-head,
 .lab-page ~ .site-footer,
 .site-header:has(~ .lab-page) {
   text-shadow:
