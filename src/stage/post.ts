@@ -44,7 +44,11 @@ const finishShader = {
     }
     void main() {
       vec4 color = texture2D(tDiffuse, vUv);
-      float grain = (rand(vUv * 1000.0 + fract(uTime)) - 0.5) * uGrain;
+      // Seeded per pixel, so it cannot alias into stripes. Weighted by
+      // brightness: this runs before the sRGB encode, where even a little
+      // grain on the near-black ground turns into bright static.
+      float lum = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
+      float grain = (rand(gl_FragCoord.xy + fract(uTime) * 61.0) - 0.5) * uGrain * (0.25 + sqrt(lum));
       float d = distance(vUv, vec2(0.5));
       float vig = 1.0 - smoothstep(0.35, 0.95, d) * uVignette;
       gl_FragColor = vec4((color.rgb + grain) * vig * uFade, color.a);

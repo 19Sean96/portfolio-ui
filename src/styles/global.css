@@ -386,8 +386,8 @@ p {
    card comes into view. */
 .media-flow {
   display: grid;
-  /* The wide diagram is cropped and bleeds off the right edge, so it fills
-     the 16:10 face like a poster instead of sitting as a thin strip. */
+  /* The wide diagram is cropped to its middle steps and bleeds off both
+     edges, so it fills the 16:10 face like a poster, not a thin strip. */
   place-items: center start;
   overflow: hidden;
   background:
@@ -406,7 +406,7 @@ p {
   width: 190%;
   max-width: none;
   height: auto;
-  margin-left: 4%;
+  margin-left: -45%;
 }
 
 /* No capture yet: the project's name set large, lit in its own two hues. */
@@ -498,11 +498,15 @@ p {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-4);
   }
+  /* Two up, so the archive reads as secondary on a phone. */
+  .grid-archive {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-/* The AV pieces list reads as a column, not a 72rem-wide bar. */
+/* The AV pieces list reads as a column, lined up with the prose above. */
 .pieces {
-  max-width: 48rem;
+  max-width: var(--reading-width);
 }
 
 .facts dt {
@@ -514,7 +518,11 @@ p {
   margin: 0;
 }
 
+/* On its own page a recording shows whole, at its own shape; only cards
+   crop to 16:10. */
 .project-media .media {
+  aspect-ratio: auto;
+  height: auto;
   border-radius: var(--radius);
   box-shadow: var(--raised-high);
 }
@@ -584,9 +592,13 @@ p {
 }
 
 /* An unbuilt piece sits flat and unlit: its slot, not yet a surface. */
+.pieces li > span:first-child {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
 .pieces li[data-status='in-progress'] {
-  min-height: calc(2.75rem + var(--space-3));
-  padding-top: var(--space-4);
   background: rgb(255 255 255 / 0.02);
   box-shadow: none;
   color: var(--ink-2);
@@ -671,7 +683,10 @@ p {
    sit there instead of leaving the row empty. */
 @media (min-width: 40rem) and (max-width: 52rem) {
   .prose .flow {
-    width: 100%;
+    width: min(
+      100vw - 2 * var(--gutter),
+      var(--page-width) - 2 * var(--gutter)
+    );
     display: grid;
     grid-template-columns: 20rem minmax(0, 1fr);
     column-gap: var(--space-8);
@@ -740,7 +755,12 @@ p {
 
 .flow-key {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-3);
+}
+
+.flow-key > span {
+  white-space: nowrap;
 }
 
 .flow-key > span::before {

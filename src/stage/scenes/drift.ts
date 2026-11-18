@@ -19,7 +19,9 @@ varying vec2 vUv;
 ${noiseGlsl}
 void main() {
   vec2 uv = vUv;
-  vec2 p = (uv - 0.5) * vec2(uResolution.x / uResolution.y, 1.0) * 2.4;
+  // Scaled by the short side, so a phone held upright sees the lit edges
+  // of the cloud too, not only its dark middle.
+  vec2 p = (uv - 0.5) * uResolution / min(uResolution.x, uResolution.y) * 2.4;
   p += uPointer * 0.25;
   float t = uTime * 0.06;
   vec2 q = vec2(fbm(p + t), fbm(p + vec2(5.2, 1.3) - t));
