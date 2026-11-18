@@ -473,13 +473,29 @@ p {
 
 /* Each tag wraps whole, and the dot leads the next tag, so no line ends
    on a dangling separator. A status mark gets its own row above them. */
+.meta .tags {
+  flex-basis: 100%;
+  overflow: hidden;
+}
+
+/* Every tag carries its dot in a 1em slot before it, and the row starts
+   1em early under a clip, so the dot that opens each line is cut away. */
+.meta .tags > span {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: var(--space-1);
+  margin-inline-start: -1em;
+}
+
 .meta .tag {
   white-space: nowrap;
 }
 
-.meta .tag + .tag::before {
+.meta .tag::before {
   content: '·';
-  margin-inline-end: var(--space-2);
+  display: inline-block;
+  inline-size: 1em;
+  text-align: center;
 }
 
 .meta:has(.tag) .pill {
@@ -832,8 +848,9 @@ p {
 }
 
 /* Home's footer rests on the lit cloud too. */
-.page:has(> .hero) ~ .site-footer {
-  color: var(--ink-2);
+.page:has(> .hero) ~ .site-footer,
+.page:has(> .hero) ~ .site-footer a {
+  color: var(--ink);
 }
 
 .lab-page :is(.crumbs, h1, .lede),
@@ -988,7 +1005,10 @@ p {
   }
 }
 
+/* The status has its own line, so the panel keeps its width as the
+   message changes. */
 .lab-controls [role='status'] {
+  flex-basis: 100%;
   font-size: var(--text-small);
   color: var(--ink-2);
 }

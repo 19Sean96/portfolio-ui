@@ -21,11 +21,15 @@ export function LabCard({
             {entry.status === 'sketch' && (
               <span className="pill pill-draft">sketch</span>
             )}
-            {entry.tech.map((t) => (
-              <span key={t} className="tag">
-                {t}
+            <span className="tags">
+              <span>
+                {entry.tech.map((t) => (
+                  <span key={t} className="tag">
+                    {t}
+                  </span>
+                ))}
               </span>
-            ))}
+            </span>
           </p>
         </div>
       </Link>

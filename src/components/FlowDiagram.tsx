@@ -164,12 +164,14 @@ export function FlowSvg({
       },
       { threshold: 0.35 },
     )
-    io.observe(svg)
+    // A card face crops the diagram, so most of it is never on screen;
+    // watch the face instead.
+    io.observe(decorative && svg.parentElement ? svg.parentElement : svg)
     return () => {
       io.disconnect()
       tl.stop()
     }
-  }, [block])
+  }, [block, decorative])
 
   return (
     <svg
