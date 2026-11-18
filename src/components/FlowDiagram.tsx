@@ -203,7 +203,7 @@ export function FlowSvg({
               markerEnd={`url(#${arrowId})`}
               data-marker={`url(#${arrowId})`}
             />
-            {label && (
+            {label && !decorative && (
               <text
                 x={upright ? p.x + 10 : (p.x + q.x) / 2}
                 y={upright ? (p.y + q.y) / 2 + 4 : (p.y + q.y) / 2 - 8}
@@ -228,7 +228,7 @@ export function FlowSvg({
             <text x={x + 12} y={y + 26} className="flow-label">
               {n.label}
             </text>
-            {n.detail && (
+            {n.detail && !decorative && (
               <text x={x + 12} y={y + 46} className="flow-detail">
                 {n.detail}
               </text>

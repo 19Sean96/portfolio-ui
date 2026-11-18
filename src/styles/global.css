@@ -372,8 +372,10 @@ p {
    card comes into view. */
 .media-flow {
   display: grid;
-  place-items: center;
-  padding: var(--space-4);
+  /* The wide diagram is cropped and bleeds off the right edge, so it fills
+     the 16:10 face like a poster instead of sitting as a thin strip. */
+  place-items: center start;
+  overflow: hidden;
   background:
     radial-gradient(
       80% 70% at 50% 40%,
@@ -387,8 +389,10 @@ p {
    layout inside articles; a card face keeps the whole picture. */
 .media-flow .flow-grid {
   display: block;
-  width: 100%;
+  width: 190%;
+  max-width: none;
   height: auto;
+  margin-left: 4%;
 }
 
 /* No capture yet: the project's name set large, lit in its own two hues. */
@@ -611,7 +615,7 @@ p {
    diagram reflows to one column in edge order. */
 .flow-column {
   display: none;
-  width: min(100%, 24rem);
+  width: 100%;
   height: auto;
   margin-inline: auto;
 }
@@ -623,6 +627,10 @@ p {
   .flow-column {
     display: block;
   }
+  /* The panel hugs the one-column diagram instead of stretching it. */
+  .prose .flow {
+    width: min(100%, 22rem);
+  }
 }
 
 .flow-node {
@@ -633,10 +641,10 @@ p {
 }
 
 .flow-node rect {
-  fill: color-mix(in srgb, var(--actor) 10%, var(--surface-raised));
+  fill: color-mix(in srgb, var(--actor) 18%, var(--surface-raised));
   stroke: var(--actor);
   stroke-width: 1;
-  stroke-opacity: 0.7;
+  stroke-opacity: 0.35;
 }
 
 .flow-person {
@@ -717,6 +725,19 @@ p {
   text-shadow:
     0 1px 2px rgb(0 0 0 / 0.6),
     0 0 1.2em rgb(7 8 12 / 0.75);
+}
+
+/* A halo is not enough over a pale field the visitor picked, so on lab
+   pages the footer frosts like the scrolled header. Its text still lines
+   up with the page column. */
+.lab-page ~ .site-footer {
+  max-width: none;
+  padding-inline: max(
+    var(--gutter),
+    (100% - var(--page-width)) / 2 + var(--gutter)
+  );
+  background-color: rgb(7 8 12 / 0.72);
+  backdrop-filter: blur(14px);
 }
 
 .lab-host {

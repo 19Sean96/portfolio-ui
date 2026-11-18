@@ -15,7 +15,8 @@ uniform vec3 uHot;
 varying vec2 vUv;
 ${noiseGlsl}
 void main() {
-  vec2 p = (vUv - 0.5) * vec2(uResolution.x / uResolution.y, 1.0);
+  // Centred low, so at rest the ring passes behind the controls, not the words.
+  vec2 p = (vUv - vec2(0.5, 0.38)) * vec2(uResolution.x / uResolution.y, 1.0);
   float r = length(p);
   float a = atan(p.y, p.x);
   float ring = 0.18 + uBass * 0.22 + fbm(vec2(a * 3.0, uTime * 0.4)) * (0.05 + uMid * 0.2);
