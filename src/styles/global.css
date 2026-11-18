@@ -20,6 +20,10 @@ body {
   margin: 0;
   min-height: 100dvh;
   overflow-x: hidden;
+  /* A column, so the page grows and the footer rests at the bottom of a
+     short page instead of floating mid-screen. */
+  display: flex;
+  flex-direction: column;
 }
 
 img,
@@ -155,6 +159,24 @@ p {
   background: linear-gradient(var(--ground), rgb(7 8 12 / 0));
 }
 
+/* At the top the header is open over the stage; once the page scrolls it
+   frosts, so the wordmark never sits on a headline. Browsers without
+   scroll timelines keep the fade. */
+@supports (animation-timeline: scroll()) {
+  .site-header {
+    animation: header-frost linear both;
+    animation-timeline: scroll();
+    animation-range: 0 6rem;
+  }
+}
+
+@keyframes header-frost {
+  to {
+    background-color: rgb(7 8 12 / 0.72);
+    backdrop-filter: blur(14px);
+  }
+}
+
 .wordmark {
   font-weight: 650;
   letter-spacing: -0.01em;
@@ -192,11 +214,20 @@ p {
 
 /* Page frame. */
 .page {
+  flex: 1 0 auto;
+  width: 100%;
   max-width: var(--page-width);
   margin: 0 auto;
   padding: var(--space-8) var(--gutter) var(--space-16);
   display: grid;
   gap: var(--space-8);
+  align-content: start;
+}
+
+/* A page's crumb, title and lede read as one group. */
+.page > .crumbs + h1,
+.page > h1 + .lede {
+  margin-top: calc(-1 * var(--space-4));
 }
 
 .page > section {
@@ -621,7 +652,16 @@ p {
   --actor: var(--actor-system);
 }
 
-/* Lab pages. */
+/* Lab pages. A live piece can paint the stage bright, so the words over it
+   carry a soft dark halo. */
+.lab-page :is(.crumbs, h1, .lede),
+.lab-page ~ .site-footer,
+.site-header:has(~ .lab-page) {
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.6),
+    0 0 1.2em rgb(7 8 12 / 0.75);
+}
+
 .lab-host {
   display: grid;
   gap: var(--space-4);
@@ -735,6 +775,7 @@ p {
 
 /* Footer: where the page ends, and what the found count means. */
 .site-footer {
+  width: 100%;
   max-width: var(--page-width);
   margin: 0 auto;
   padding: var(--space-8) var(--gutter) var(--space-12);
