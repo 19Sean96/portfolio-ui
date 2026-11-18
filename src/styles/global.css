@@ -280,6 +280,20 @@ p {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
 }
 
+/* Lab pieces: three across from tablet up, so no piece sits alone. */
+.grid-lab {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+
+/* The archive: smaller cards, one row of five on a wide screen. */
+.grid-archive {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+}
+
+.grid-archive .card-title {
+  font-size: var(--text-subheading);
+}
+
 .card {
   background: var(--surface-light), var(--surface);
   border-radius: var(--radius);
@@ -336,6 +350,10 @@ p {
 .card-title {
   font-size: var(--text-heading);
   font-weight: 600;
+}
+
+.card-text .meta {
+  margin-top: var(--space-2);
 }
 
 .card-sub {

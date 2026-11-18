@@ -15,14 +15,14 @@ export function LabCard({
       <Link to="/lab/$id" params={{ id: entry.id }} className="card-link">
         <img className="media" src={entry.still} alt="" loading="lazy" />
         <div className="card-text">
+          <Heading className="card-title">{entry.title}</Heading>
+          <p className="card-sub">{entry.summary}</p>
           <p className="meta">
             {entry.status === 'sketch' && (
               <span className="pill pill-draft">sketch</span>
             )}
             <span>{entry.tech.join(' · ')}</span>
           </p>
-          <Heading className="card-title">{entry.title}</Heading>
-          <p className="card-sub">{entry.summary}</p>
         </div>
       </Link>
     </article>

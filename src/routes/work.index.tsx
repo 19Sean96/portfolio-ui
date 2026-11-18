@@ -15,17 +15,34 @@ function Work() {
   useStageScene(scenes.quiet)
   useEntrance(ref)
   const list = allProjects()
+  const current = list.filter((p) => p.status !== 'archived')
+  const archive = list.filter((p) => p.status === 'archived')
   return (
     <main id="main" className="page" ref={ref}>
       <h1 data-enter>Work</h1>
       <p className="lede" data-enter>
         Current work first, then the archive.
       </p>
-      <div className="grid">
-        {list.map((p) => (
-          <ProjectCard key={p.slug} project={p} level={2} />
-        ))}
-      </div>
+      <section aria-labelledby="current-head">
+        <h2 id="current-head" data-enter>
+          Current
+        </h2>
+        <div className="grid grid-feature">
+          {current.map((p) => (
+            <ProjectCard key={p.slug} project={p} />
+          ))}
+        </div>
+      </section>
+      <section aria-labelledby="archive-head">
+        <h2 id="archive-head" data-enter>
+          Archive
+        </h2>
+        <div className="grid grid-archive">
+          {archive.map((p) => (
+            <ProjectCard key={p.slug} project={p} />
+          ))}
+        </div>
+      </section>
     </main>
   )
 }

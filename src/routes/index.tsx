@@ -40,7 +40,7 @@ function Home() {
           <h2 id="lab-head">Lab</h2>
           <Link to="/lab">All experiments</Link>
         </div>
-        <div className="grid">
+        <div className="grid grid-lab">
           {labExperiments.map((e) => (
             <LabCard key={e.id} entry={e} />
           ))}

@@ -31,6 +31,8 @@ export function ProjectCard({
           label={project.title}
         />
         <div className="card-text">
+          <Heading className="card-title">{project.title}</Heading>
+          <p className="card-sub">{project.subtitle}</p>
           <p className="meta">
             <span className={`pill pill-${project.status}`}>
               {statusWords[project.status]}
@@ -40,8 +42,6 @@ export function ProjectCard({
             )}
             <span>{project.years}</span>
           </p>
-          <Heading className="card-title">{project.title}</Heading>
-          <p className="card-sub">{project.subtitle}</p>
         </div>
       </Link>
     </article>

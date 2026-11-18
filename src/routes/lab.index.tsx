@@ -21,7 +21,7 @@ function Lab() {
         Small experiments with browser features. Each one checks what your
         browser can do and shows a still when it cannot run.
       </p>
-      <div className="grid">
+      <div className="grid grid-lab">
         {labExperiments.map((e) => (
           <LabCard key={e.id} entry={e} level={2} />
         ))}
