@@ -24,6 +24,7 @@ export const brownSales: Project = {
   media: {
     kind: 'video',
     sources: ['/media/work/brownsales.webm', '/media/work/brownsales.mp4'],
+    poster: '/media/work/brownsales.jpg',
     alt: 'Brown Sales site walkthrough',
   },
   feature: 0,

@@ -21,6 +21,7 @@ export const picki: Project = {
   media: {
     kind: 'video',
     sources: ['/media/work/picki.webm', '/media/work/picki.mp4'],
+    poster: '/media/work/picki.jpg',
     alt: 'Picki app walkthrough',
   },
   feature: 0,

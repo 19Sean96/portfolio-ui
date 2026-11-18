@@ -225,7 +225,13 @@ export function FlowSvg({
             className={`flow-node flow-${n.actor ?? 'system'}`}
           >
             <rect x={x} y={y} width={W} height={H} rx={10} />
-            <text x={x + 12} y={y + 26} className="flow-label">
+            {/* With no detail line under it, the label sits mid-box. */}
+            <text
+              x={x + 12}
+              y={decorative ? y + H / 2 : y + 26}
+              dominantBaseline={decorative ? 'central' : undefined}
+              className="flow-label"
+            >
               {n.label}
             </text>
             {n.detail && !decorative && (

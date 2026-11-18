@@ -295,6 +295,7 @@ p {
 }
 
 .card {
+  position: relative;
   background: var(--surface-light), var(--surface);
   border-radius: var(--radius);
   box-shadow: var(--raised);
@@ -303,6 +304,16 @@ p {
   transition:
     translate var(--duration-spring) var(--ease-spring),
     box-shadow var(--duration) var(--ease-out);
+}
+
+/* The top light sits over the media too, or a dark face hides it. */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--edge-light);
+  pointer-events: none;
 }
 
 .card:hover {
@@ -538,7 +549,26 @@ p {
   box-shadow: var(--raised);
 }
 
+/* A built piece is a lit surface, so the whole surface opens it. */
+.pieces li {
+  position: relative;
+  transition: translate var(--duration-spring) var(--ease-spring);
+}
+
+.pieces li > a:not(.piece-source)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.pieces li:has(> a:not(.piece-source):hover) {
+  translate: 0 -2px;
+}
+
 .pieces .piece-source {
+  position: relative;
+  z-index: 1;
   justify-self: end;
   font-size: var(--text-label);
 }
@@ -637,6 +667,18 @@ p {
   }
 }
 
+/* On a tablet there is room beside the column, so the caption and key
+   sit there instead of leaving the row empty. */
+@media (min-width: 40rem) and (max-width: 52rem) {
+  .prose .flow {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20rem minmax(0, 1fr);
+    column-gap: var(--space-8);
+    align-items: start;
+  }
+}
+
 .flow-node {
   opacity: var(--p, 1);
   transform-box: fill-box;
@@ -732,8 +774,23 @@ p {
 }
 
 /* A halo is not enough over a pale field the visitor picked, so on lab
-   pages the footer frosts like the scrolled header. Its text still lines
-   up with the page column. */
+   pages the header frosts from the top, and the footer frosts too. The
+   piece owns the first screen, so the footer waits below the fold. Its
+   text still lines up with the page column. */
+.lab-page {
+  min-height: 100dvh;
+}
+
+.lab-page .crumbs {
+  color: var(--ink-2);
+}
+
+.site-header:has(~ .lab-page) {
+  animation: none;
+  background-color: rgb(7 8 12 / 0.72);
+  backdrop-filter: blur(14px);
+}
+
 .lab-page ~ .site-footer {
   max-width: none;
   padding-inline: max(
@@ -882,7 +939,10 @@ p {
   border: 0;
   border-radius: 10px;
   background: none;
-  box-shadow: var(--raised);
+  /* A thin ring, so a dark colour still reads as a well on the panel. */
+  box-shadow:
+    0 0 0 1px var(--line-strong),
+    var(--raised);
   cursor: pointer;
 }
 

@@ -15,8 +15,9 @@ uniform vec3 uHot;
 varying vec2 vUv;
 ${noiseGlsl}
 void main() {
-  // Centred low, so at rest the ring passes behind the controls, not the words.
-  vec2 p = (vUv - vec2(0.5, 0.38)) * vec2(uResolution.x / uResolution.y, 1.0);
+  // Centred low, so at rest the ring passes behind the controls, not the
+  // words. Sized by the short side, so a phone held upright keeps it whole.
+  vec2 p = (vUv - vec2(0.5, 0.38)) * uResolution / min(uResolution.x, uResolution.y);
   float r = length(p);
   float a = atan(p.y, p.x);
   float ring = 0.18 + uBass * 0.22 + fbm(vec2(a * 3.0, uTime * 0.4)) * (0.05 + uMid * 0.2);

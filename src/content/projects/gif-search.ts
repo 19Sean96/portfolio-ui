@@ -26,6 +26,7 @@ export const gifSearch: Project = {
   media: {
     kind: 'video',
     sources: ['/media/work/giphy.webm', '/media/work/giphy.mp4'],
+    poster: '/media/work/giphy.jpg',
     alt: 'GIF Search walkthrough',
   },
   feature: 0,

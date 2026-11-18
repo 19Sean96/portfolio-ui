@@ -31,6 +31,7 @@ export const campaignBuilder: Project = {
       '/media/work/campaign-builder.webm',
       '/media/work/campaign-builder.mp4',
     ],
+    poster: '/media/work/campaign-builder.jpg',
     alt: 'Campaign Builder app walkthrough',
   },
   feature: 0,

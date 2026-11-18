@@ -24,6 +24,7 @@ export const reactiveShapes: Project = {
       '/media/work/reactive-shapes.webm',
       '/media/work/reactive-shapes.mp4',
     ],
+    poster: '/media/work/reactive-shapes.jpg',
     alt: 'Reactive Shapes gameplay',
   },
   feature: 0,
