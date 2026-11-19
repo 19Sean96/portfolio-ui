@@ -8,7 +8,6 @@ import { brownSales } from './projects/brown-sales'
 import { campaignBuilder } from './projects/campaign-builder'
 import { gifSearch } from './projects/gif-search'
 import { integralife } from './projects/integralife'
-import { nextExperiment } from './projects/next-experiment'
 import { picki } from './projects/picki'
 import { reactiveShapes } from './projects/reactive-shapes'
 import type { Project, ProjectStatus } from './schema'
@@ -24,7 +23,6 @@ export const projects: readonly Project[] = [
   picki,
   gifSearch,
   reactiveShapes,
-  nextExperiment,
 ]
 
 const statusOrder: Record<ProjectStatus, number> = {

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useRef } from 'react'
-import { about, roles } from '~/content/bio'
+import { about, contactEmail, githubUrl, roles } from '~/content/bio'
 import { useEntrance } from '~/motion/useEntrance'
 import { scenes, useStageScene } from '~/stage/StageProvider'
 
@@ -43,6 +43,17 @@ function About() {
           </li>
         ))}
       </ol>
+      <h2 data-enter>Contact</h2>
+      <ul className="links" data-enter>
+        <li>
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+        </li>
+        <li>
+          <a href={githubUrl} rel="me">
+            GitHub
+          </a>
+        </li>
+      </ul>
     </main>
   )
 }

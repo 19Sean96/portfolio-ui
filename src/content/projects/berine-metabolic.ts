@@ -86,8 +86,7 @@ export const berineMetabolic: Project = {
     // video pipeline).
   ],
   role: ['co-founder', 'head engineer'],
-  // A guess; Sean to confirm the start year.
-  years: '2025–now',
+  years: '2026–now',
   status: 'live',
   tech: [
     'TanStack Start',

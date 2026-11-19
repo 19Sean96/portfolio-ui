@@ -278,8 +278,9 @@ p {
 
 /* The three card grids change together at 46rem, so a page never jumps
    from one huge column to three cramped ones. Below it: work and lab one
-   column, the archive two. Above it: work two, lab three, the archive
-   three over two until its row of five fits. */
+   column, the archive two. Above it: work and lab two (an odd last lab
+   piece runs the full row as a wide card), the archive three over two
+   until its row of five fits. */
 .grid-feature,
 .grid-lab {
   grid-template-columns: minmax(0, 1fr);
@@ -290,12 +291,22 @@ p {
 }
 
 @media (min-width: 46rem) {
-  .grid-feature {
+  .grid-feature,
+  .grid-lab {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .grid-lab,
   .grid-archive {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .grid-lab > .card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  .grid-lab > .card:last-child:nth-child(odd) .card-link {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+  .grid-lab > .card:last-child:nth-child(odd) .media {
+    height: 100%;
   }
 }
 
@@ -1157,6 +1168,12 @@ p {
   min-height: 2.75rem;
   display: inline-flex;
   align-items: center;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
 }
 
 /* On a phone the header keeps to one row; the footer carries the count. */

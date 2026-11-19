@@ -19,7 +19,7 @@ export const avSeries: Project = {
     // To write: the full case study, following notes/d2-case-study-outline.md.
   ],
   role: ['artist', 'engineer'],
-  years: '2025–2026',
+  years: '2026',
   status: 'live',
   tech: ['WebGL2', 'GLSL', 'Web Audio', 'Cloudflare Workers'],
   links: repoIsPublic ? [{ label: 'Source on GitHub', href: repo }] : [],

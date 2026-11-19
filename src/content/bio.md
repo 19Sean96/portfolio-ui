@@ -18,19 +18,19 @@ This site is my lab. Shaders, Web Audio, motion and small games sit next to the 
 
 ## Roles
 
-### Berine Metabolic · Co-Founder, Head Engineer
+### Berine Metabolic · co-founder, head engineer
 Berine Metabolic makes clinical diabetes education available to anyone, starting with an online course for adults with type 2 diabetes. Leads product and engineering across the full platform, from the website and course app to payments and a pipeline that produces 120+ lesson videos.
 
-### Integralife · Founding Engineer · May 2024 to May 2026
+### Integralife · founding engineer · May 2024 to May 2026
 Integralife grew from a single Tempe diabetes and nutrition clinic into telehealth care across most of the United States, and Myor Care acquired it in May 2026. Ran the technology and operations behind that growth, so one office could serve patients across the country.
 
-### San Carlos Apache Healthcare Corporation · Design Engineer
+### San Carlos Apache Healthcare Corporation · design engineer
 San Carlos Apache Healthcare Corporation is a tribally run health system serving the San Carlos Apache community. Designed and built digital tools that made care information easier for patients and staff to find and use.
 
 ### Unwired Revolution
 Unwired Revolution builds enterprise mobility and field-service software, including the RemoteLink platform. Built and ran the marketing websites for its products, working between marketing and core development to turn product interest into qualified leads.
 
-### THINKPro · Lead Web Developer, UI Designer
+### THINKPro · lead web developer, UI designer
 THINKPro Graphic and Printing Solutions is a Tempe print and design shop serving local businesses. Led web development and UI design, taking client websites and brand work from first design to launch, then stayed on part-time to hand off client sites.
 
 ### Vanguard

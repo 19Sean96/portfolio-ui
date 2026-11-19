@@ -14,10 +14,7 @@ export const picki: Project = {
   years: '2019',
   status: 'archived',
   tech: ['Express', 'Handlebars', 'MySQL', 'Yelp API', 'Heroku'],
-  links: [
-    { label: 'Site', href: 'https://picki-food.herokuapp.com/', dead: true },
-    { label: 'Repo', href: 'https://github.com/19Sean96/Project-2' },
-  ],
+  links: [{ label: 'Repo', href: 'https://github.com/19Sean96/Project-2' }],
   media: {
     kind: 'video',
     sources: ['/media/work/picki.webm', '/media/work/picki.mp4'],

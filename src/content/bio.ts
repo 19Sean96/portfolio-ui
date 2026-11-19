@@ -72,8 +72,11 @@ export function parseBio(md: string) {
 
 const bio = parseBio(source)
 
-/** The name in the header and titles. A guess from seananthony.io, unconfirmed. */
+/** The name in the header and titles. */
 export const siteName = 'Sean Anthony'
+/** Where visitors write; shown in the footer and on About. */
+export const contactEmail = 'me@seananthony.io'
+export const githubUrl = 'https://github.com/19Sean96'
 export const hero = bio.hero
 export const about = bio.about
 export const roles = bio.roles
